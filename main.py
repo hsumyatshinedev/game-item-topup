@@ -5,27 +5,36 @@ from firebase_functions import https_fn
 import datetime
 import time
 import hashlib
+import os # Environment variable သုံးဖို့ ထည့်ထားပါတယ်
+
 firebase_admin.initialize_app()
 
+# ==========================================
+# 1. Purchase Function
+# ==========================================
 @https_fn.on_call(region="asia-southeast1")
 def processPurchase(req: https_fn.Request) -> https_fn.Response:
     db = firestore.client()
 
     try:
+        # Check Authentication
         if req.auth is None:
             raise https_fn.HttpsError(
                 code=https_fn.FunctionsErrorCode.UNAUTHENTICATED,
                 message="Please sign in to make a purchase."
             )
+        
         uid = req.auth.uid
         data = req.data
 
+        # Get Input Data
         input_pin = data.get("pin")
         product_id = data.get("productId")    
         product_sku = data.get("productSku")    
         game_user_id = data.get("gameUserId")   
         game_server_id = data.get("gameServerId") 
 
+        # Validation Checks
         if not input_pin:
              return {"success": False, "error": "Please enter your Transaction PIN."}
 
@@ -45,12 +54,17 @@ def processPurchase(req: https_fn.Request) -> https_fn.Response:
 
         user_data = user_doc.to_dict()
         product_data = product_doc.to_dict()
+
+        # Check PIN
         stored_pin_hash = user_data.get("transactionPin")
         if not stored_pin_hash:
             return {"success": False, "error": "PIN not set. Please set a PIN in settings first."}
-            input_pin_hash = hashlib.sha256(input_pin.encode()).hexdigest()
-            if input_pin_hash != stored_pin_hash:
+            
+        input_pin_hash = hashlib.sha256(input_pin.encode()).hexdigest()
+        if input_pin_hash != stored_pin_hash:
             return {"success": False, "error": "Incorrect PIN!"}
+
+        # Find Product Option and Price
         purchased_option = None
         for opt in product_data.get("options", []):
             if opt.get("sku") == product_sku:
@@ -64,10 +78,13 @@ def processPurchase(req: https_fn.Request) -> https_fn.Response:
 
         if price_to_deduct <= 0:
              return {"success": False, "error": "Price for this item is not set."}
+
+        # Check Balance
         user_balance = user_data.get("balance", 0)
         if user_balance < price_to_deduct:
             return {"success": False, "error": "Insufficient balance. Please top-up your wallet."}
 
+        # MOCK PURCHASE PROCESS
         print(f"PYTHON MOCK PURCHASE: User {uid} is buying {product_sku} for ${price_to_deduct}")
         
         fake_api_result = {"status": "success"}
@@ -86,12 +103,12 @@ def processPurchase(req: https_fn.Request) -> https_fn.Response:
              "details": f"ID: {game_user_id} / Server: {game_server_id or 'N/A'}",
             }
 
+            # Update Database
             user_ref.update({
                 "balance": new_balance
             })
             transactions_ref = user_ref.collection("transactions")
             transactions_ref.add(tx)
-
 
             return {"success": True}
 
@@ -105,11 +122,22 @@ def processPurchase(req: https_fn.Request) -> https_fn.Response:
             code=https_fn.FunctionsErrorCode.INTERNAL,
             message=f"An internal error occurred: {e}"
         )
+
+# ==========================================
+# 2. Admin Claim Function (Updated Security)
+# ==========================================
 @https_fn.on_call(region="asia-southeast1")
 def setAdminClaim(req: https_fn.CallableRequest) -> https_fn.Response:
 
-    SUPER_ADMIN_EMAIL = "admin@wphyoe3151.com"  
+    # လုံခြုံရေးအတွက် Email ကို Env Variable ကနေ လှမ်းယူပါမယ်
+    SUPER_ADMIN_EMAIL = os.environ.get("SUPER_ADMIN_EMAIL")
 
+    # Env မထည့်ရသေးရင် Error မတက်အောင် စစ်ပေးထားပါတယ်
+    if not SUPER_ADMIN_EMAIL:
+        print("CRITICAL ERROR: SUPER_ADMIN_EMAIL is not set in environment variables.")
+        return {"success": False, "error": "Server configuration error."}
+
+    # Caller Email ကို စစ်ဆေးခြင်း
     if req.auth is None or req.auth.token.get('email') != SUPER_ADMIN_EMAIL:
         print(f"Permission denied. Caller email is: {req.auth.token.get('email')}")
         raise https_fn.HttpsError(
