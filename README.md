@@ -6,6 +6,17 @@
 
 A robust and secure serverless backend system designed to handle in-game item purchases, wallet management, and admin privileges. Built using **Python** on **Firebase Cloud Functions (2nd Gen)**.
 
+## 🔐 Production Considerations (Note for Reviewers)
+
+This repository contains a **simplified version** of the backend logic for demonstration purposes. 
+The actual production environment includes the following advanced security and stability features:
+
+* **Idempotency Keys:** To prevent duplicate transactions during network retries.
+* **Rate Limiting & IP Ban:** To protect against brute-force attacks on PINs.
+* **Real-time Alerts:** Telegram/Discord Bot integration for critical errors and sales notifications.
+* **CI/CD Pipelines:** Automated testing and deployment using GitHub Actions.
+* **Audit Logs:** Comprehensive logging of all admin actions and user balance changes.
+
 ---
 
 ## 🚀 Key Features
