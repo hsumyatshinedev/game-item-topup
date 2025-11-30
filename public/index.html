@@ -1,0 +1,1695 @@
+<!doctype html>
+<html lang="my">
+<head>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="/icon.png">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Faygo Digital Store</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.lordicon.com/lordicon.js"></script>
+<style>
+  :root{
+    --bg1:#041227; --bg2:#071433; --neon:#00d2ff; --accent:#7cf1ff;
+    --glass: rgba(255,255,255,0.06); --glass-2: rgba(255,255,255,0.03);
+    --success: #00ff8c; --error: #ff6b6b; --pending: #ffb86b; 
+  }
+  
+  #loader-wrap {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: var(--bg1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: all 0.5s ease-out;
+    opacity: 1;
+    visibility: visible;
+  }
+  .loader-content {
+ }
+  .loader-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+    object-fit: cover;
+    animation: pulse-glow 2s ease-in-out infinite;
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+  }
+  @keyframes pulse-glow {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 0 15px rgba(0, 210, 255, 0.3), 0 0 25px rgba(0, 210, 255, 0.2);
+    }
+    50% {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(0, 210, 255, 0.7), 0 0 60px rgba(0, 210, 255, 0.5);
+    }
+  }
+
+  .loader-text {
+    position: relative;
+    margin-top: 25px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    animation: flicker 1.5s infinite alternate;
+  }
+  .loader-text::before,
+  .loader-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  .loader-text::before {
+    left: 2px;
+    text-shadow: -1px 0 var(--error); 
+    animation: glitch-anim 2s infinite linear alternate-reverse;
+  }
+  .loader-text::after {
+    left: -2px;
+    text-shadow: -1px 0 var(--neon);
+    animation: glitch-anim 1.5s infinite linear alternate-reverse;
+  }
+
+  @keyframes glitch-anim {
+    0% { clip-path: polygon(0 15%, 100% 15%, 100% 30%, 0 30%); }
+    20% { clip-path: polygon(0 40%, 100% 40%, 100% 45%, 0 45%); }
+    40% { clip-path: polygon(0 60%, 100% 60%, 100% 70%, 0 70%); }
+    60% { clip-path: polygon(0 10%, 100% 10%, 100% 25%, 0 25%); }
+    80% { clip-path: polygon(0 80%, 100% 80%, 100% 90%, 0 90%); }
+    100% { clip-path: polygon(0 50%, 100% 50%, 100% 55%, 0 55%); }
+  }
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+  }
+
+
+  *{box-sizing:border-box}
+  body,html{height:100%;margin:0;font-family:"Roboto",system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(120deg,var(--bg1),#020617 60%); color:#e6f7ff; -webkit-font-smoothing:antialiased}
+  
+  .bg{
+    position:fixed; inset:0; z-index:-3; background:#001021;
+    background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1920&auto-format&fit=crop&ixlib-rb-4.0.3&s=4d9e7d3a0ec43f2b5d2a7f9b6a4b9e20');
+    background-size:cover; background-position:center center;
+    filter:contrast(1.05) saturate(1.05);
+  }
+  .streak {
+    position:fixed; inset:0; z-index:-2; pointer-events:none;
+    background: linear-gradient(90deg, transparent 0%, rgba(0,210,255,0.06) 30%, rgba(124,241,255,0.06) 50%, transparent 100%);
+    mix-blend-mode: screen; animation: streakmove 12s linear infinite;
+    backdrop-filter: blur(2px);
+  }
+  @keyframes streakmove { from{transform:translateX(-40%)} to{transform:translateX(40%)} }
+
+  .app {
+    max-width: none; 
+    width: 100%;
+    height: 100vh;
+    margin: 0; 
+    padding: 28px; 
+    border-radius: 0;
+    background: linear-gradient(180deg, rgba(10,20,40,0.36), rgba(5,10,20,0.28));
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6), 0 0 30px rgba(0,210,255,0.03) inset;
+    border: none;
+    backdrop-filter: blur(8px) saturate(120%);
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 90px;
+  }
+
+  .header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px; flex-shrink: 0;}
+  .logo{ display:flex;align-items:center;gap:12px; }
+  .logo .icon{
+    width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#00d2ff,#7cf1ff);display:flex;align-items:center;justify-content:center;color:#012331;font-weight:700;font-size:20px;box-shadow:0 6px 20px rgba(0,210,255,0.08);
+  }
+  .app-title{font-size:20px;font-weight:700;letter-spacing:0.6px}
+  .sub{font-size:12px;opacity:0.7;margin-top:2px}
+
+  .auth-wrap{
+    position:fixed;
+    inset:0; display:flex;align-items:center;justify-content:center; z-index:50;
+    background:linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.5));
+    transition:opacity .3s ease, visibility .3s; padding:20px;
+    backdrop-filter: blur(5px);
+  }
+  .auth-card{
+    width:420px; max-width:calc(100% - 40px); border-radius:12px; padding:22px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+    box-shadow: 0 10px 40px rgba(2,8,20,0.6);
+    border: 1px solid rgba(124,241,255,0.06);
+    transform:translateY(0);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .auth-card-content {
+    overflow-y: auto;
+    min-height: 0;
+  }
+  
+  .auth-card h2{margin:0 0 8px;font-size:18px; flex-shrink: 0;}
+  .auth-card p{margin:0 0 18px;opacity:0.8; flex-shrink: 0;}
+  .auth-card .about-content { font-size: 14px; line-height: 1.6; opacity: 0.9; }
+
+  .field{margin-bottom:12px}
+  .field label{display:block;font-size:13px;margin-bottom:6px;opacity:0.8}
+  .field input{
+    width:100%;padding:10px 12px;border-radius:8px;
+    border:1px solid rgba(255,255,255,0.04);
+    background:rgba(255,255,255,0.02);
+    color:inherit;font-size:14px;outline:none;
+  }
+  
+  .field select {
+    width:100%; 
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.04);
+    background: rgba(255,255,255,0.02);
+    color: inherit;
+    font-size: 14px;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237cf1ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
+    cursor: pointer;
+  }
+ 
+  .btn{display:inline-block;padding:10px 14px;border-radius:10px;border:none;cursor:pointer;background:linear-gradient(90deg,var(--neon),var(--accent));color:#012331;font-weight:700;box-shadow:0 8px 24px rgba(0,210,255,0.08); transition: all 0.2s ease;}
+  .btn:hover { opacity: 0.9; box-shadow: 0 10px 28px rgba(0,210,255,0.12); }
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--glass);
+    color: var(--accent);
+  }
+  .btn-secondary {
+    background:transparent;
+    border:1px solid rgba(255,255,255,0.04);
+    color:#cfeffb;
+    padding:8px 10px;
+    border-radius:8px;
+    cursor: pointer;
+  }
+  .btn-secondary:hover {
+    background: var(--glass);
+    border-color: var(--accent);
+  }
+  
+  .muted{opacity:0.75;font-size:13px}
+
+  .tabs {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    display:flex; align-items: stretch; 
+    height: 70px;
+    background: var(--bg2);
+    border-top: 1px solid rgba(0,210,255,0.08);
+    box-shadow: 0 -5px 30px rgba(0,0,0,0.3);
+    z-index: 10;
+    padding: 0;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding-top: 8px;
+    cursor:pointer;
+    font-weight: 500;
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    position:relative;
+    transition: color .3s ease;
+  }
+  .tab .tab-icon {
+    width: 30px; 
+    height: 30px;
+    --lord-icon-primary: rgba(255,255,255,0.6); 
+    transition: all .3s ease;
+  }
+  
+  .tab.active .tab-icon {
+    --lord-icon-primary: var(--neon); 
+    transform: scale(1.05);
+  }
+
+  .tab-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 20%;
+    background: linear-gradient(90deg,var(--neon),var(--accent));
+    box-shadow:0 6px 14px rgba(0,210,255,0.12);
+    border-radius: 0 0 4px 4px;
+    transition: transform .35s cubic-bezier(.2,.9,.2,1);
+  }
+
+  .content { 
+    margin-top:18px; 
+    position:relative; 
+    overflow:hidden; 
+    flex-grow: 1;
+    min-height: 0;
+    z-index: 1;
+  }
+  
+  .pane {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    opacity: 0;
+    pointer-events: none; 
+    transition: opacity 0.35s ease, transform 0.35s cubic-bezier(.2,.9,.2,1);
+    transform: translateX(20px); 
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+  }
+  .pane.slide-from-left {
+    transform: translateX(-20px);
+  }
+  .pane.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+    display: flex; 
+    z-index: 2;
+  }
+
+  .tx-filter-group {
+    display: flex;
+    gap: 6px;
+    background: var(--glass-2);
+    padding: 4px;
+    border-radius: 8px;
+  }
+  .btn-filter {
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.6);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .btn-filter.active {
+    background: var(--neon);
+    color: var(--bg1);
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0,210,255,0.15);
+  }
+
+  .grid {
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:16px;
+  }
+  .game-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); 
+    border-radius:12px; 
+    padding:12px; 
+    border:1px solid rgba(255,255,255,0.03); 
+    box-shadow: 0 6px 30px rgba(2,8,20,0.5);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease, 
+                transform 0.3s ease, 
+                border-color 0.3s ease, 
+                box-shadow 0.3s ease;
+  }
+  .game-card:hover {
+    background: var(--glass);
+    border-color: var(--neon);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 40px rgba(2,8,20,0.7), 0 0 20px rgba(0, 210, 255, 0.3); 
+  }
+  .game-card-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+  }
+  .game-card:hover .game-card-img {
+    transform: scale(1.08);
+  }
+
+  .game-card-info {
+    flex-grow: 1;
+    min-width: 0;
+  }
+  .game-card-title {
+    font-weight: 700;
+    margin-bottom: 4px;
+    font-size: 14px;
+    color: #fff;
+  }
+  .game-card-meta {
+    font-size: 13px;
+    opacity: 0.8;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @keyframes card-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .balance{display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:12px;background:linear-gradient(90deg, rgba(0,210,255,0.04), rgba(124,241,255,0.02)); border:1px solid rgba(0,210,255,0.06); margin-bottom:12px}
+  .balance .amount{font-size:20px;font-weight:800}
+  .trans-list{max-height:260px;overflow:auto;padding-right:8px}
+  .trans-item{display:flex;justify-content:space-between;padding:8px 6px;border-bottom:1px dashed rgba(255,255,255,0.02);font-size:13px}
+
+  .pending-badge {
+    font-size: 10px;
+    font-weight: 700;
+    color: #000;
+    background: var(--pending);
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 6px;
+    text-transform: uppercase;
+  }
+
+  .settings-list{display:grid;gap:10px}
+  .setting-row{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:10px;background:var(--glass-2);border:1px solid rgba(255,255,255,0.02)}
+  .setting-row .btn, .setting-row .field-select {
+    flex-shrink: 0; 
+  }
+  .setting-row > div:first-child {
+    min-width: 0; 
+  }
+  .setting-row .field {
+    width: 150px; 
+    margin: 0;
+  }
+
+  .promo-card {
+    background: var(--glass-2);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 16px;
+    overflow: hidden; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .promo-image {
+    width: 100%;
+    height: 200px; 
+    
+    background-size: cover;   
+    background-position: center center; 
+    background-repeat: no-repeat;
+    
+    background-color: var(--glass); 
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .promo-content {
+    padding: 12px;
+  }
+  .promo-title {
+    font-weight: 700;
+    color: var(--neon);
+    margin-bottom: 6px;
+  }
+  .promo-desc {
+    font-size: 13px;
+    line-height: 1.5;
+    opacity: 0.8;
+  }
+  
+  .promo-footer {
+    padding: 8px 12px;
+    border-top: 1px solid var(--glass);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .like-btn {
+    background:transparent;
+    border:1px solid rgba(255,255,255,0.04);
+    color:#cfeffb;
+    padding: 6px 10px; 
+    font-size: 13px;
+    border-radius:8px;
+    cursor: pointer;
+    display: flex; 
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+  }
+  .like-btn:hover {
+    background: var(--glass);
+    border-color: var(--accent);
+  }
+  .like-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: #cfeffb;
+    fill: none;
+    transition: all 0.2s ease;
+  }
+  
+  .like-btn.active {
+    background: rgba(255, 107, 107, 0.1);
+    border-color: rgba(255, 107, 107, 0.4);
+    color: #ffb8b8;
+  }
+  .like-btn.active svg {
+    stroke: #ff6b6b;
+    fill: #ff6b6b;
+  }
+  
+  .like-count {
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0.7;
+  }
+
+  .home-welcome {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+  .home-welcome span {
+    color: var(--accent);
+  }
+  .home-section-title {
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .home-section-title a.view-all {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  
+  .home-featured-games {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+  }
+
+  .home-featured-games::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .feat-game-card {
+    flex: 1;
+    min-width: 0;
+    background: var(--glass-2);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 4px 20px rgba(2,8,20,0.4);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .feat-game-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--neon);
+  }
+  .feat-game-card-img {
+    width: 100%;
+    height: 129px;
+    border-radius: 11px 11px 0 0;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: var(--glass-2);
+  }
+  .feat-game-card-title {
+    font-weight: 600;
+    font-size: 13px;
+    padding: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  #home-promo-list {
+    display: flex;
+    flex-direction:row;
+    gap: 10px;
+  }
+
+  #home-promo-list .promo-card {
+    flex: 1; 
+  }
+
+  .detail-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-shrink: 0;
+  }
+  .detail-header .btn-secondary {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+  }
+  .detail-header h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  
+  #detailBanner {
+    width: 100%;
+    height: 160px;
+    border-radius: 12px;
+    background-color: var(--glass-2);
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 16px;
+    flex-shrink: 0;
+    border: 1px solid var(--glass);
+  }
+  
+  .detail-tab-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+    padding-bottom: 4px; 
+    flex-shrink: 0; 
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .detail-tab-bar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .detail-tab-item {
+    padding: 8px 14px;
+    border-radius: 8px;
+    background: var(--glass-2);
+    border: 1px solid rgba(255,255,255,0.04);
+    color: #cfeffb;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap; 
+  }
+  .detail-tab-item:hover {
+    background: var(--glass);
+  }
+  .detail-tab-item.active {
+    background: var(--neon);
+    color: var(--bg1);
+    font-weight: 700;
+    border-color: var(--accent);
+    box-shadow: 0 4px 12px rgba(0,210,255,0.15);
+  }
+
+  .detail-package-container {
+    flex-grow: 1; 
+    position: relative;
+    min-height: 0; 
+  }
+  
+  .detail-package-list {
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 8px; 
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    padding: 4px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  
+  .detail-package-list.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  .package-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px; 
+    max-height: 180px; overflow-y: auto; padding:4px;
+    border: 1px solid rgba(255,255,255,0.04); border-radius: 8px;
+    background: rgba(0,0,0,0.2);
+  }
+  .pkg-item {
+    padding: 10px; border-radius: 8px; background: var(--glass-2); 
+    border: 1px solid rgba(255,255,255,0.04);
+    cursor: pointer; transition: all .2s;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center;
+    min-height: 50px;
+  }
+  .pkg-item:hover { background: var(--glass); }
+  .pkg-item.selected {
+    background: var(--neon); color: var(--bg1); font-weight: 700;
+    border-color: var(--accent); box-shadow: 0 4px 12px rgba(0,210,255,0.15);
+  }
+  .pkg-item .name { font-weight: 600; font-size: 13px; }
+  .pkg-item .price { font-size: 13px; opacity: 0.8; margin-top: 4px; }
+  .pkg-item.selected .price { color: var(--bg1); opacity: 0.9; }
+
+  .error-msg {
+    margin-top: 12px; font-size: 13px; color: #ff9a9a; 
+    background: rgba(255,100,100,0.05); border: 1px solid rgba(255,100,100,0.1);
+    padding: 8px; border-radius: 6px;
+    display: none; 
+  }
+  
+  .topup-step-pane {
+    display: none;
+  }
+  .topup-step-pane h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 0 0 12px 0;
+  }
+  #topupModalWrap .package-grid {
+    max-height: 200px; 
+  }
+  #topupModalWrap .pkg-item {
+    text-align: center;
+  }
+  
+  .payment-info {
+    font-size: 14px;
+    line-height: 1.6;
+    background: var(--glass-2);
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+  .payment-account {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+    background: rgba(0,0,0,0.2);
+    padding: 10px;
+    border-radius: 6px;
+    margin: 8px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .payment-account .btn-secondary {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+  
+  .slip-upload-area {
+    margin-top: 16px;
+  }
+  .slip-upload-area input[type="file"] {
+    display: none;
+  }
+  .slip-upload-label {
+    display: block;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: var(--glass);
+    border: 1px dashed rgba(255,255,255,0.1);
+    color: var(--accent);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .slip-upload-label:hover {
+    background: var(--glass-2);
+    border-color: var(--neon);
+  }
+  #slip-preview {
+    font-size: 12px;
+    text-align: center;
+    color: var(--accent);
+    margin-top: 10px;
+    font-style: italic;
+  }
+  
+  .modal-footer {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  #toastContainer {
+    position: fixed; top: 20px; right: 20px;
+    z-index: 1000; display: flex;
+    flex-direction: column; gap: 10px;
+  }
+  .toast-item {
+    padding: 12px 18px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--glass), var(--glass-2));
+    border: 1px solid rgba(124, 241, 255, 0.1);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    backdrop-filter: blur(8px);
+    color: #e6f7ff; font-weight: 600;
+    font-size: 14px;
+    animation: toast-in 0.3s cubic-bezier(.2,.9,.2,1);
+    border-left: 4px solid var(--accent);
+  }
+  .toast-item.success { border-left-color: var(--success); }
+  .toast-item.error { border-left-color: var(--error); color: #ffdddd; }
+  .toast-item.fade-out { animation: toast-out 0.3s ease-out forwards; }
+  
+  @keyframes toast-in {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  @keyframes toast-out {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+  }
+
+  .scroll-animate {
+    opacity: 0;
+    transform: translateY(20px); 
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  }
+  
+  .scroll-animate.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  #claimBonusBtn {
+    background: linear-gradient(90deg, var(--glass), var(--glass-2));
+    color: var(--accent);
+    border: 1px solid var(--neon);
+    box-shadow: 0 0 15px rgba(0,210,255,0.15);
+    transition: all 0.3s ease;
+  }
+  #claimBonusBtn:hover {
+    background: var(--glass);
+    box-shadow: 0 0 20px rgba(0,210,255,0.3);
+  }
+  #claimBonusBtn:disabled {
+    background: var(--glass-2);
+    color: rgba(255,255,255,0.4);
+    border-color: rgba(255,255,255,0.1);
+    box-shadow: none;
+    opacity: 1; 
+    cursor: not-allowed;
+  }
+  #claimBonusBtn span { 
+    display:flex; align-items: center; justify-content: center; gap: 8px;
+    font-weight: 700;
+  }
+
+  .auth-wrap[style*="visible"] #success-modal-content {
+    transform: scale(1);
+  }
+  
+  .success-checkmark-container {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    margin: 0 auto;
+    transform: scale(0); 
+    animation: none; 
+  }
+  
+  .success-checkmark-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(0, 255, 140, 0.1);
+    border: 3px solid var(--success);
+    position: absolute;
+  }
+  
+  .success-checkmark-stem,
+  .success-checkmark-kick {
+    position: absolute;
+    background-color: var(--success);
+    border-radius: 3px;
+    height: 4px; 
+  }
+
+  .success-checkmark-stem {
+    width: 25px;
+    left: 20px;
+    top: 38px;
+    transform: rotate(45deg);
+  }
+
+  .success-checkmark-kick {
+    width: 45px; 
+    left: 38px;
+    top: 34px;
+    transform: rotate(-45deg);
+  }
+  
+  .auth-wrap[style*="visible"] .success-checkmark-container {
+    animation: checkmark-scale-in 0.4s cubic-bezier(.2,.9,.2,1) forwards;
+  }
+  
+  @keyframes checkmark-scale-in {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+  }
+
+  @keyframes checkmark-scale-in {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+  }
+
+  .hero-carousel { 
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    background: linear-gradient(90deg, var(--glass), var(--glass-2));
+    border: 1px solid var(--neon);
+    box-shadow: 0 0 15px rgba(0,210,255,0.15);
+    padding: 12px 16px;
+    display: flex; 
+    align-items: center;
+    gap: 12px;
+    overflow: hidden;
+  }
+  .hero-icon { 
+    flex-shrink: 0;
+    color: var(--neon);
+    animation: bell-ring 2s ease-in-out infinite;
+  }
+  @keyframes bell-ring {
+    0%, 100% { transform: rotate(0); }
+    10%, 30% { transform: rotate(15deg); }
+    20%, 40% { transform: rotate(-15deg); }
+    50% { transform: rotate(0); }
+  }
+  .hero-slider { 
+    flex-grow: 1;
+    white-space: nowrap; 
+    display: flex;
+    align-items: center;
+  }
+  .hero-slide { 
+    display: inline-block;
+    padding-left: 100%; 
+    animation: marquee 15s linear infinite;
+    font-weight: 500;
+    color: #fff;
+  }
+  .hero-slide span { 
+    font-weight: 700;
+    color: var(--accent);
+    margin-right: 10px;
+  }
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+  .hero-slide img, .hero-nav { display: none; }
+
+  #notification-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 10px;
+    height: 10px;
+    background-color: var(--error); 
+    border-radius: 50%;
+    border: 2px solid var(--bg1); 
+    display: none; 
+  }
+  
+  #notification-list-container {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .page-pane {
+    position: fixed; 
+    inset: 0;
+    z-index: 20; 
+    visibility: hidden;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(.2,.9,.2,1), visibility 0.35s;
+    background: linear-gradient(120deg,var(--bg1),#020617 60%);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 28px;
+    padding-bottom: 28px; 
+    padding-top: env(safe-area-inset-top, 28px);
+  }
+  
+  .page-pane.show {
+    visibility: visible;
+    transform: translateX(0);
+  }
+
+  @media (max-width:640px){ 
+    .header{flex-direction:column;align-items:flex-start} 
+    .logo .icon{width:48px;height:48px} 
+    .auth-card{width:100%} 
+    .grid{grid-template-columns:1fr} 
+    .package-grid{grid-template-columns:1fr}
+    .detail-package-list { grid-template-columns: 1fr; } 
+    .app { 
+      margin: 0; 
+      padding: 20px;
+      padding-bottom: 90px; 
+    }
+    .tx-filter-group {
+      width: 100%;
+      margin-top: 8px;
+      justify-content: space-around;
+    }
+    #wallet .balance + div {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+  }
+  .slider-container {
+    position: relative;
+    width: 100%;
+    height: 180px; 
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(0,210,255,0.15);
+    border: 1px solid var(--neon);
+    display: block;
+  }
+  .slider-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s ease-in-out;
+  }
+  .slider-item {
+    min-width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .slider-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .slider-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    transition: all 0.3s;
+  }
+  .dot.active { background: var(--neon); width: 20px; border-radius: 10px; }
+</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+  <div id="loader-wrap">
+    <div class="loader-content">
+      <img src="icon.png" alt="Loading Logo" class="loader-logo" />
+      <div class="loader-text" data-text="Welcome To Faygo Digital Store">Welcome To Faygo Digital Store</div>
+    </div>
+  </div>
+  <div class="bg" aria-hidden="true"></div>
+  <div class="streak" aria-hidden="true"></div>
+
+  <div class="app" id="app" role="application" aria-label="Faygo Digital Store App" style="display: none;">
+    <div class="header">
+      <div class="logo">
+        <div class="icon" style="background:none; padding:0; box-shadow:none;">
+      <img src="icon.png"
+           alt="App Logo" 
+           style="width:56px; height:56px; border-radius:12px; object-fit:cover;">
+    </div>
+        <div>
+          <div class="app-title">Faygo Digital Store</div>
+          <div class="sub">Game item တွေဝယ်ရန် အကောင်းဆုံး website</div>
+        </div>
+      </div>
+      <div id="userArea" style="display:flex;align-items:center;gap:12px">
+        
+        <button class="btn-secondary" id="notificationBtn" style="padding: 10px; position: relative; width: 44px; height: 44px; flex-shrink: 0;">
+          <lord-icon
+              src="https://cdn.lordicon.com/psnhyobz.json"
+              trigger="hover"
+              style="width:24px;height:24px">
+          </lord-icon>
+          <span id="notification-badge" style="display: none;"></span>
+        </button>
+        <div id="welcome" class="muted">Not signed in</div>
+        <button class="btn" id="logoutBtn" style="background: linear-gradient(90deg,#ff6b6b,#ffb86b); color:#102022; display: none;">Logout</button>
+      </div>
+    </div>
+
+    <div class="content">
+    
+     <div id="home" class="pane show" role="tabpanel">
+        
+        <div class="home-welcome" id="homeWelcome">Welcome to Faygo Store!</div>
+        
+        <div class="field" style="margin-bottom: 20px;" id="dailyBonusContainer">
+           <button class="btn" id="claimBonusBtn" style="width:100%;">
+            <span></span>
+           </button>
+        </div>
+      
+        <div class="slider-container" id="heroSliderContainer" style="display: none;">
+          <div class="slider-track" id="heroSliderTrack">
+            </div>
+          <div class="slider-dots" id="heroSliderDots"></div>
+        </div>
+        
+        <div class="home-section-title">
+          <span>Featured Games</span>
+          <a href="#" class="view-all" id="homeViewAllGames">View All</a>
+        </div>
+        <div class="home-featured-games" id="homeFeaturedGames">
+            <div class="muted">Loading featured games...</div>
+        </div>       
+          
+        <div class="home-section-title">
+          <span>Latest Promotions</span>
+          <a href="#" class="view-all" id="homeViewAllSocial">View All</a>
+        </div>
+        <div id="home-promo-list">
+          <div class="muted">Loading promotions...</div>
+        </div>
+        
+      </div>
+      
+      <div id="shop" class="pane" role="tabpanel" aria-hidden="true">
+        <div class="field" style="margin-bottom: 16px;">
+          <input id="searchBar" type="text" placeholder="ဂိမ်းအမည်ဖြင့် ရှာဖွေပါ..." 
+                 style="background:rgba(0,0,0,0.2); border-color:rgba(255,255,255,0.06);">
+        </div>
+        
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div style="font-weight:700;font-size:16px">All Games</div>
+          <div style="opacity:0.85">Click a game to buy items</div>
+        </div>
+        <div class="grid" id="groupGrid">
+          <div class="muted" style="text-align: center; grid-column: 1 / -1;">Loading games...</div>
+        </div>
+      </div>
+
+      <div id="wallet" class="pane" role="tabpanel" aria-hidden="true">
+        <div class="balance">
+          <div>
+            <div class="muted" id="balanceLabel">Balance (USD)</div>
+            <div class="amount" id="balanceAmount">—</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn" id="openTopup">Top-up</button> 
+            <button class="btn" id="refreshBtn">Refresh</button>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+          <div style="font-weight:700">Transaction History</div>
+          <div class="tx-filter-group" id="txFilterGroup">
+            <button class="btn-filter active" data-filter="all">All</button>
+            <button class="btn-filter" data-filter="purchase">Purchases</button>
+            <button class="btn-filter" data-filter="topup">Top-ups</button>
+          </div>
+        </div>
+        
+        <div class="trans-list" id="transList" style="margin-top:8px"></div>
+        <div id="load-more-container" style="display: none; margin-top: 16px;">
+          <button id="loadMoreTxBtn" class="btn btn-secondary" style="width: 100%;">
+            Load More
+          </button>
+          <p id="tx-loading-msg" class="muted" style="text-align: center; margin-top: 10px; display: none;">Loading...</p>
+        </div>
+      </div>
+
+      
+      
+      <div id="social" class="pane" role="tabpanel" aria-hidden="true">
+        <div style="font-weight:700;font-size:16px; margin-bottom:12px;">Announcements & Sales</div>
+        <div class="settings-list" id="social-list-container">
+          <div class="muted" style="text-align: center;">Loading promotions...</div>
+        </div>
+      </div>
+      
+      <div id="settings" class="pane" role="tabpanel" aria-hidden="true">
+        <div class="settings-list">
+          
+          <div class="setting-row">
+            <div>
+              <div style="font-weight:700">Display Currency</div>
+              <div class="muted" style="font-size: 12px;">Product prices will show in this currency.<br>Your wallet remains in USD.</div>
+            </div>
+            <div class="field">
+              <select id="currencySelect">
+                <option value="USD">USD ($)</option>
+                <option value="MMK">MMK (Ks)</option>
+                <option value="THB">THB (฿)</option>
+                <option value="MYR">MYR (RM)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div>
+              <div style="font-weight:700">Edit Profile</div>
+              <div class="muted">Change display name</div>
+            </div>
+            <button class="btn" id="editProfileBtn">Edit</button>
+          </div>
+
+          <div class="setting-row">
+            <div>
+              <div style="font-weight:700">Change Password</div>
+              <div class="muted">Update your account password</div>
+            </div>
+            <button class="btn" id="changePasswordBtn">Change</button>
+          </div>
+
+          <div class="setting-row">
+         <div>
+         <div style="font-weight:700">Transaction PIN</div>
+         <div class="muted">Change your 6-digit PIN</div>
+        </div>
+       <button class="btn" id="changePinBtn">Change PIN</button>
+      </div>
+
+          <div class="setting-row">
+            <div>
+              <div style="font-weight:700">About Us</div>
+              <div class="muted">Faygo Digital Store — demo</div>
+            </div>
+            <button class="btn" id="aboutBtn">About</button>
+          </div>
+          <div class="setting-row" id="installAppContainer" style="display: none;">
+  <div>
+    <div style="font-weight:700">Install App</div>
+    <div class="muted">Add to Home Screen</div>
+  </div>
+  <button class="btn" id="installAppBtn">Install</button>
+</div>
+
+          <div class="setting-row">
+            <div>
+              <div style="font-weight:700">Chat with Admin</div>
+              <div class="muted">Contact us via Messenger for support</div>
+            </div>
+            <a href="https://t.me/faygothechad" target="_blank" class="btn" id="chatBtn" style="text-decoration: none; text-align: center;">
+              Chat
+            </a>
+          </div>         
+        </div>
+      </div>
+  </div>
+</div>
+        
+    <div id="detailPane" class="page-pane" role="region" aria-label="Game Detail">
+      <div class="detail-header">
+        <button class="btn-secondary" id="detailBackBtn" aria-label="Go back to shop">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        </button>
+        <h2 id="detailTitle">Game Details</h2>
+      </div>
+      
+      <div id="detailBanner"></div>
+      
+      <div class="detail-tab-bar" id="detailTabBar" role="tablist">
+        </div>
+      
+      <div class="detail-package-container" id="detailPackageContainer">
+        </div>
+    </div>
+    
+  <div class="tabs" role="tablist" aria-label="Main tabs">
+    <div class="tab-indicator" id="tabIndicator"></div>
+    
+    <div class="tab active" data-tab="home" role="tab" aria-selected="true" aria-controls="home">
+      <lord-icon
+          src="https://cdn.lordicon.com/pgirtdfe.json"
+          trigger="click"
+          class="tab-icon"
+          style="width:30px;height:30px">
+      </lord-icon>
+      Home
+    </div>
+    
+    <div class="tab" data-tab="shop" role="tab" aria-selected="false" aria-controls="shop">
+      <lord-icon
+          src="https://cdn.lordicon.com/hwpohgdf.json"
+          trigger="click"
+          class="tab-icon"
+          style="width:30px;height:30px">
+      </lord-icon>
+      Shop
+    </div>
+
+    <div class="tab" data-tab="wallet" role="tab" aria-selected="false" aria-controls="wallet">
+      <lord-icon
+          src="https://cdn.lordicon.com/rhmhivzj.json"
+          trigger="click"
+          class="tab-icon"
+          style="width:30px;height:30px">
+      </lord-icon>
+      Wallet
+    </div>
+
+    <div class="tab" data-tab="social" role="tab" aria-selected="false" aria-controls="social">
+       <lord-icon
+          src="https://cdn.lordicon.com/etzspqzb.json"
+          trigger="click"
+          class="tab-icon"
+          style="width:30px;height:30px">
+      </lord-icon>
+      Social
+    </div>
+
+    <div class="tab" data-tab="settings" role="tab" aria-selected="false" aria-controls="settings">
+      <lord-icon
+          src="https://cdn.lordicon.com/fvkvwmsp.json"
+          trigger="click"
+          class="tab-icon"
+          style="width:30px;height:30px">
+      </lord-icon>
+      Settings
+    </div>
+  </div>
+  
+  <div class="auth-wrap" id="authWrap" style="display:none;" aria-hidden="true">
+  <div class="auth-card" role="dialog" aria-modal="true">
+    <h2 id="authTitle">Sign in to Faygo</h2>
+    <p id="authSubtitle">Use email & password to continue.</p>
+    
+    <button id="closeAuth" class="btn-secondary" style="position: absolute; top: 15px; right: 15px; padding: 6px 10px;">&times;</button>
+    
+    <div class="auth-card-content" style="margin-top: 15px;">
+      
+      <div class="field">
+        <label for="email">Email Address</label>
+        <input id="email" type="email" placeholder="user@example.com">
+      </div>
+      
+      <div class="field" id="displayNameField" style="display: none;">
+        <label for="displayName">Display Name</label>
+        <input id="displayName" type="text" placeholder="e.g., FaygoUser">
+      </div>
+      
+      <div class="field" id="passwordField">
+        <label for="password">Password</label>
+        <input id="password" type="password">
+      </div>
+      
+      <div class="muted" style="text-align: right; margin-top: -5px; margin-bottom: 15px;">
+        <a href="#" id="forgotPasswordLink" style="color: var(--accent);">Forgot Password?</a>
+      </div>
+      
+      <div id="authMsg" class="error-msg" style="margin-bottom: 15px;"></div>
+      
+      <button class="btn" id="signinBtn" style="width:100%;">Sign In</button>
+      <button class="btn" id="signupBtn" style="width:100%; display:none;">Create Account</button>
+      <button class="btn" id="resetPasswordBtn" style="width:100%; display:none;">Send Reset Link</button>
+      
+      <div class="muted" style="text-align: center; margin-top: 20px;">
+        Don't have an account? <a href="#" id="toggleToSignup" style="color: var(--accent);">Sign up</a>
+        Already have an account? <a href="#" id="toggleToSignin" style="color: var(--accent); display:none;">Sign in</a>
+      </div>
+      
+    </div>
+  </div>
+</div>
+  
+  <div class="auth-wrap" id="buyModalWrap" style="visibility:hidden; opacity:0;">
+    <div class="auth-card" role="dialog" aria-modal="true">
+      <h2 id="buyModalTitle">Buy Item</h2>
+      <p id="buyModalSubtitle">Enter your details and select a package.</p>
+      
+      <div class="auth-card-content">
+        <div class="field">
+          <label for="buyUserId">Game User ID</label>
+          <input id="buyUserId" type="text" placeholder="Enter your in-game User ID" />
+        </div>
+
+        <div class="field" id="buyServerIdWrap" style="display: none;">
+          <label for="buyServerId">Server ID (Zone ID)</label>
+          <input id="buyServerId" type="text" placeholder="Enter your Server ID (e.g., 1234)" />
+        </div>
+
+        <div class="field" id="buyPackageField">
+          <label>Select Package</label>
+          <div class="package-grid" id="buyPackageGrid"></div>
+        </div>
+
+        <div id="buyErrorMsg" class="error-msg"></div>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn" id="buyConfirmBtn">Confirm Purchase</button>
+        <button id="buyCloseBtn" class="btn-secondary" style="margin-left:auto;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-wrap" id="topupModalWrap" style="visibility:hidden; opacity:0;">
+    <div class="auth-card" role="dialog" aria-modal="true">
+      <h2 id="topupModalTitle">Top-up Wallet</h2>
+      
+      <div class="auth-card-content">
+        <div class="topup-step-pane" id="topup-step-1" style="display: block;">
+          <h3 id="topupStep1Title">Step 1: Enter Amount</h3>
+          
+          <div class="field" style="margin-top: 20px;">
+            <label for="topupAmountInput" id="topupAmountLabel">Amount (USD)</label>
+            <input id="topupAmountInput" type="number" placeholder="e.g., 10000" style="font-size: 18px; padding: 12px;" />
+            <div class="muted" style="font-size: 12px; margin-top: 8px;" id="topupConversionRate"></div>
+          </div>
+          
+          <div id="topupErrorMsg1" class="error-msg"></div>
+        </div>
+
+        <div class="topup-step-pane" id="topup-step-2">
+          <h3>Step 2: Select Payment Method</h3>
+          <div class="package-grid" id="topup-method-grid">
+            <div class="pkg-item" data-provider="KBZPay">
+              <div class="name">KBZPay</div>
+            </div>
+            <div class="pkg-item" data-provider="Wave">
+              <div class="name">Wave Pay</div>
+            </div>
+          </div>
+          <div id="topupErrorMsg2" class="error-msg"></div>
+        </div>
+        
+        <div class="topup-step-pane" id="topup-step-3">
+          <h3>Step 3: Complete Payment & Upload</h3>
+          
+          <div class="payment-info" id="payment-details"></div>
+          
+          <div class="slip-upload-area field">
+            <label for="slipUpload" class="slip-upload-label">
+              ငွေလွှဲ slip ဓာတ်ပုံ ထည့်ရန်
+            </label>
+            <input type="file" id="slipUpload" accept="image/png, image/jpeg, image/webp">
+            
+            <div id="slip-preview" style="margin-top: 10px; text-align: center;">
+              <img id="slip-preview-img" src="" style="display:none; max-width: 100%; max-height: 150px; border-radius: 8px; object-fit: contain;">
+              <span id="slip-preview-text" class="muted" style="font-style: italic;">No file selected</span>
+            </div>
+          </div>
+          
+          <div id="topupErrorMsg3" class="error-msg"></div>
+        </div>
+      </div>
+      
+      <div class="modal-footer" id="topup-footer-1">
+        <button class="btn" id="topupNextBtn1">Next Step</button>
+        <button id="topupCloseBtn1" class="btn-secondary" style="margin-left:auto;">Cancel</button>
+      </div>
+      
+      <div class="modal-footer" id="topup-footer-2" style="display: none;">
+        <button id="topupBackTo1Btn" class="btn-secondary">Back</button>
+        <button id="topupCloseBtn2" class="btn-secondary" style="margin-left:auto;">Cancel</button>
+      </div>
+      
+      <div class="modal-footer" id="topup-footer-3" style="display: none;">
+        <button id="topupBackTo2Btn" class="btn-secondary">Back</button>
+        <button id="topupSubmitRequestBtn" class="btn" style="margin-left:auto;">Submit Request</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-wrap" id="profileModalWrap" style="visibility:hidden; opacity:0;">
+    <div class="auth-card" role="dialog" aria-modal="true">
+      <h2>Edit Profile</h2>
+      <p>Change your display name.</p>
+
+      <div class="auth-card-content">       
+        
+        <div style="margin-bottom: 20px;">
+          <label style="display:block; font-size:13px; margin-bottom:8px; opacity:0.8">Choose Avatar</label>
+          <div id="avatar-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;"></div>
+          <input type="hidden" id="selectedAvatarUrl" />
+        </div>
+
+        <div class="field">
+          <label for="profileName">Display Name</label>
+          <input id="profileName" type="text" placeholder="Your display name" />
+        </div>
+
+        <div id="profileErrorMsg" class="error-msg"></div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn" id="profileSaveBtn">Save</button>
+        <button id="profileCloseBtn" class="btn-secondary" style="margin-left:auto;">Close</button>
+      </div>
+    </div>
+  </div>
+  <div class="auth-wrap" id="passwordModalWrap" style="visibility:hidden; opacity:0;">
+    <div class="auth-card" role="dialog" aria-modal="true">
+      <h2>Change Password</h2>
+      <p>Enter a new password.</p>
+      
+      <div class="auth-card-content">
+        <div class="field">
+          <label for="newPassword">New Password</label>
+          <input id="newPassword" type="password" placeholder="At least 6 characters" />
+        </div>
+        <div id="passwordErrorMsg" class="error-msg"></div>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn" id="passwordSaveBtn">Save New Password</button>
+        <button id="passwordCloseBtn" class="btn-secondary" style="margin-left:auto;">Close</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="auth-wrap" id="aboutModalWrap" style="visibility:hidden; opacity:0;">
+    <div class="auth-card" role="dialog" aria-modal="true">
+      <h2>About Faygo Store</h2>
+      <div class="auth-card-content">
+        <div class="about-content">
+          <p style="font-weight: 700; color: var(--neon); font-size: 16px; margin-bottom: 10px;">
+            Welcome to Faygo Digital Store! 🚀
+          </p>
+          <p>
+            ကျွန်ုပ်တို့ထံတွင် PUBG, Mobile Legends, Free Fire နှင့် အခြားသော ဂိမ်းမျိုးစုံကို ဈေးနှုန်းသက်သာစွာဖြင့် ယုံကြည်စိတ်ချစွာ ဝယ်ယူနိုင်ပါသည်။
+          </p>
+          <ul style="padding-left: 20px; margin: 10px 0; color: var(--accent);">
+            <li>⚡ Fast Delivery (မြန်ဆန်မှု)</li>
+            <li>🔒 100% Secure (လုံခြုံစိတ်ချရမှု)</li>
+            <li>💎 Best Prices (အကောင်းဆုံး ဈေးနှုန်း)</li>
+          </ul>
+          <p>
+            ငွေပေးချေမှုအတွက် KBZPay, WavePay နှင့် အခြားသော mobilebanking  တို့ကို အသုံးပြုနိုင်ပါသည်။
+          </p>
+          <br>
+          <p style="font-size: 12px; opacity: 0.6;">
+            © 2025 Faygo Store. All rights reserved.
+          </p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="aboutCloseBtn" class="btn-secondary" style="margin-left:auto;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-wrap" id="successModalWrap" style="visibility:hidden; opacity:0; z-index: 100;">
+    <div class="auth-card" id="success-modal-content" style="text-align: center; max-width: 380px; transform: scale(0.9); transition: all 0.3s cubic-bezier(.2,.9,.2,1);">
+      
+      <div class="success-checkmark-container">
+        <div class="success-checkmark-circle"></div>
+        <div class="success-checkmark-stem"></div>
+        <div class="success-checkmark-kick"></div>
+      </div>
+      
+      <h2 style="color: var(--success); font-size: 20px; margin: 16px 0 8px;">
+        ဝယ်ယူမှု အောင်မြင်ပါသည်
+      </h2>
+      <p style="font-size: 15px; line-height: 1.6; opacity: 0.9; margin-bottom: 24px;">
+        3 မိနစ်အတွင်း ရောက်ရှိပါမည်။<br>
+        ဝယ်ယူမှုအတွက် ကျေးဇူးတင်ပါတယ်ရှင်။
+      </p>
+      <div style="margin-bottom: 16px; background: #020617; padding: 10px; border-radius: 8px; border: 1px dashed rgba(255,255,255,0.1);">
+  <div id="invoice-loading" style="font-size: 12px; color: #7cf1ff;">Generating Invoice...</div>
+  <img id="invoice-preview-img" src="" alt="Invoice Preview" style="width: 100%; border-radius: 6px; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
+</div>
+
+<button id="downloadInvoiceBtn" class="btn" style="width: 100%; margin-bottom: 10px; background: linear-gradient(90deg, #00d2ff, #7cf1ff); color: #012331;">
+  📥 Save Invoice
+</button>
+      
+      <button id="successCloseBtn" class="btn" style="width: 100%; background: var(--glass); color: var(--accent);">
+        Close
+      </button>
+    </div>
+  </div>
+
+  <div class="auth-wrap" id="notificationModalWrap" style="visibility:hidden; opacity:0; z-index: 101;">
+    <div class="auth-card" role="dialog" aria-modal="true">
+      <h2 id="notificationTitle">Notifications</h2>
+      
+      <div class="auth-card-content" id="notification-list-container" style="padding: 0 5px; max-height: 60vh;">
+        <div class="muted" style="text-align: center; padding: 20px;">Loading notifications...</div>
+      </div>
+      
+      <div class="modal-footer">
+        <button id="notificationCloseBtn" class="btn-secondary" style="margin-left:auto;">Close</button>
+      </div>
+    </div>
+  </div>
+  <div id="toastContainer"></div>
+
+  <div id="toastContainer"></div>
+
+    <div id="invoice-capture-area" style="position: fixed; left: -9999px; top: 0; width: 400px; background: #041227; color: #fff; padding: 20px; font-family: 'Roboto', sans-serif; border-radius: 10px;">
+  <div style="text-align: center; border-bottom: 2px dashed #00d2ff; padding-bottom: 15px; margin-bottom: 15px;">
+    <h2 style="margin: 0; color: #00d2ff; font-size: 22px;">FAYGO STORE</h2>
+    <p style="margin: 5px 0 0; font-size: 12px; opacity: 0.7;">Premium Digital Shop</p>
+  </div>
+  
+  <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 13px;">
+    <span style="opacity: 0.7;">Date:</span>
+    <span id="inv-date" style="font-weight: 600;"></span>
+  </div>
+  <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 13px;">
+    <span style="opacity: 0.7;">Time:</span>
+    <span id="inv-time" style="font-weight: 600;"></span>
+  </div>
+  <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 13px;">
+    <span style="opacity: 0.7;">Order ID:</span>
+    <span id="inv-id" style="font-weight: 600; color: #7cf1ff;"></span>
+  </div>
+  
+  <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 15px 0;">
+  
+  <div style="margin-bottom: 5px; font-size: 12px; opacity: 0.7;">Item</div>
+  <div id="inv-item" style="font-size: 16px; font-weight: 700; margin-bottom: 15px;"></div>
+  
+  <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
+    <span>Player ID:</span>
+    <span id="inv-userid"></span>
+  </div>
+  <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 14px;">
+    <span>Server ID:</span>
+    <span id="inv-serverid"></span>
+  </div>
+  
+  <hr style="border: 0; border-top: 1px dashed rgba(255,255,255,0.3); margin: 15px 0;">
+  
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <span style="font-size: 16px; font-weight: 700;">Total Amount</span>
+    <span id="inv-amount" style="font-size: 20px; font-weight: 800; color: #00ff8c;"></span>
+  </div>
+  
+  <div style="text-align: center; margin-top: 25px;">
+    <div style="font-size: 18px; font-weight: 700; color: #00ff8c; border: 2px solid #00ff8c; display: inline-block; padding: 5px 15px; border-radius: 5px; transform: rotate(-5deg);">PAID SUCCESS</div>
+    <p style="margin-top: 10px; font-size: 10px; opacity: 0.5;">Thank you for shopping with Faygo!</p>
+  </div>
+</div>
+
+  <textarea id="copy-helper" style="position: absolute; left: -9999px;"></textarea>
+ <script type="module" src="./js/app.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+ <div id="maintenance-screen" style="display: none; position: fixed; inset: 0; z-index: 99999; 
+     background: rgba(4, 18, 39, 0.92); /* နောက်ခံအမည်းဖျော့ */
+     backdrop-filter: blur(10px); /* မှန်ချပ်အုပ်ထားသလို ဝါးသွားမည့် Effect */
+     flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px;">
+
+  <lord-icon
+      src="https://cdn.lordicon.com/imamsnbq.json"
+      trigger="loop"
+      colors="primary:#00d2ff,secondary:#7cf1ff"
+      style="width:160px;height:160px">
+  </lord-icon>
+
+  <h1 style="color: #00d2ff; font-size: 26px; margin: 20px 0 10px; font-weight: 800; text-shadow: 0 0 20px rgba(0,210,255,0.5);">
+    SYSTEM MAINTENANCE
+  </h1>
+
+  <p style="color: #cfeffb; line-height: 1.6; max-width: 320px; font-size: 15px; opacity: 0.9;">
+    စနစ်အဆင့်မြှင့်တင်မှုများ ပြုလုပ်နေပါသဖြင့်<br>
+    ဆိုင်ခေတ္တ ပိတ်ထားပါသည်။
+  </p>
+
+  <div style="margin-top: 30px; display: flex; align-items: center; gap: 10px; 
+       padding: 8px 20px; background: rgba(0, 210, 255, 0.1); 
+       border: 1px solid rgba(0, 210, 255, 0.2); border-radius: 50px;">
+    <div style="width: 8px; height: 8px; background: #00ff8c; border-radius: 50%; box-shadow: 0 0 8px #00ff8c;"></div>
+    <span style="color: #7cf1ff; font-size: 12px; letter-spacing: 1px; font-weight: 600;">UPGRADING...</span>
+  </div>
+
+</div>
+    <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js')
+        .then(reg => console.log('Service Worker Registered!', reg.scope))
+        .catch(err => console.log('Service Worker Failed:', err));
+    });
+  }
+</script>
+</body>
+</html>

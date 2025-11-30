@@ -1,0 +1,257 @@
+[debug] [2025-11-23T11:22:23.403Z] ----------------------------------------------------------------------
+[debug] [2025-11-23T11:22:23.413Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Lenovo K14 Gen 1\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2025-11-23T11:22:23.415Z] CLI Version:   14.26.0
+[debug] [2025-11-23T11:22:23.415Z] Platform:      win32
+[debug] [2025-11-23T11:22:23.415Z] Node Version:  v24.11.1
+[debug] [2025-11-23T11:22:23.416Z] Time:          Sun Nov 23 2025 17:52:23 GMT+0630 (Myanmar Time)
+[debug] [2025-11-23T11:22:23.416Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-11-23T11:22:23.424Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2025-11-23T11:22:24.212Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-11-23T11:22:24.213Z] > authorizing via signed-in user (hsumyatshine3151@gmail.com)
+[debug] [2025-11-23T11:22:24.213Z] [iam] checking project webapp-bcb37 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-11-23T11:22:24.215Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:24.216Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:24.216Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/webapp-bcb37:testIamPermissions [none]
+[debug] [2025-11-23T11:22:24.216Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/webapp-bcb37:testIamPermissions x-goog-quota-user=projects/webapp-bcb37
+[debug] [2025-11-23T11:22:24.216Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/webapp-bcb37:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-11-23T11:22:25.678Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/webapp-bcb37:testIamPermissions 200
+[debug] [2025-11-23T11:22:25.679Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/webapp-bcb37:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-11-23T11:22:25.680Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:25.680Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:25.680Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/webapp-bcb37/serviceAccounts/webapp-bcb37@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2025-11-23T11:22:25.680Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/webapp-bcb37/serviceAccounts/webapp-bcb37@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-11-23T11:22:27.167Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/webapp-bcb37/serviceAccounts/webapp-bcb37@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2025-11-23T11:22:27.167Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/webapp-bcb37/serviceAccounts/webapp-bcb37@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-11-23T11:22:27.168Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:27.168Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:27.169Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/webapp-bcb37 [none]
+[debug] [2025-11-23T11:22:28.307Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/webapp-bcb37 200
+[debug] [2025-11-23T11:22:28.307Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/webapp-bcb37 {"projectId":"webapp-bcb37","projectNumber":"666038503161","displayName":"webapp","name":"projects/webapp-bcb37","resources":{"hostingSite":"webapp-bcb37"},"state":"ACTIVE","etag":"1_7fced7b2-8412-404e-b471-18d8a5eb19f5"}
+[info] 
+[info] === Deploying to 'webapp-bcb37'...
+[info] 
+[info] i  deploying functions, hosting 
+[info] +  functions: Finished running predeploy script. 
+[debug] [2025-11-23T11:22:28.327Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:28.328Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:28.328Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/cloudresourcemanager.googleapis.com [none]
+[debug] [2025-11-23T11:22:28.328Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/cloudresourcemanager.googleapis.com x-goog-quota-user=projects/webapp-bcb37
+[debug] [2025-11-23T11:22:30.540Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/cloudresourcemanager.googleapis.com 200
+[debug] [2025-11-23T11:22:30.541Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/cloudresourcemanager.googleapis.com [omitted]
+[debug] [2025-11-23T11:22:30.553Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:30.553Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:30.554Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/webapp-bcb37 [none]
+[debug] [2025-11-23T11:22:30.975Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/webapp-bcb37 200
+[debug] [2025-11-23T11:22:30.976Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/webapp-bcb37 {"projectNumber":"666038503161","projectId":"webapp-bcb37","lifecycleState":"ACTIVE","name":"webapp","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2025-11-05T02:42:17.654747Z"}
+[info] i  functions: preparing codebase default for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[debug] [2025-11-23T11:22:30.982Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:30.982Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:30.983Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:30.984Z] Checked if tokens are valid: true, expires at: 1763900437130
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[debug] [2025-11-23T11:22:30.984Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:30.984Z] Checked if tokens are valid: true, expires at: 1763900437130
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2025-11-23T11:22:30.985Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:30.985Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:30.985Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/cloudfunctions.googleapis.com [none]
+[debug] [2025-11-23T11:22:30.985Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/webapp-bcb37
+[debug] [2025-11-23T11:22:30.986Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/runtimeconfig.googleapis.com [none]
+[debug] [2025-11-23T11:22:30.986Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/webapp-bcb37
+[debug] [2025-11-23T11:22:30.987Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/cloudbuild.googleapis.com [none]
+[debug] [2025-11-23T11:22:30.987Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/cloudbuild.googleapis.com x-goog-quota-user=projects/webapp-bcb37
+[debug] [2025-11-23T11:22:30.992Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/artifactregistry.googleapis.com [none]
+[debug] [2025-11-23T11:22:30.992Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/artifactregistry.googleapis.com x-goog-quota-user=projects/webapp-bcb37
+[debug] [2025-11-23T11:22:32.746Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/artifactregistry.googleapis.com 200
+[debug] [2025-11-23T11:22:32.747Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/artifactregistry.googleapis.com [omitted]
+[info] +  artifactregistry: required API artifactregistry.googleapis.com is enabled 
+[debug] [2025-11-23T11:22:32.759Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/cloudfunctions.googleapis.com 200
+[debug] [2025-11-23T11:22:32.760Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/cloudfunctions.googleapis.com [omitted]
+[info] +  functions: required API cloudfunctions.googleapis.com is enabled 
+[debug] [2025-11-23T11:22:33.016Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/cloudbuild.googleapis.com 200
+[debug] [2025-11-23T11:22:33.016Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/cloudbuild.googleapis.com [omitted]
+[info] +  functions: required API cloudbuild.googleapis.com is enabled 
+[debug] [2025-11-23T11:22:33.500Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/runtimeconfig.googleapis.com 200
+[debug] [2025-11-23T11:22:33.500Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2025-11-23T11:22:33.512Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:33.512Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:33.512Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/webapp-bcb37/adminSdkConfig [none]
+[debug] [2025-11-23T11:22:34.171Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/webapp-bcb37/adminSdkConfig 200
+[debug] [2025-11-23T11:22:34.172Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/webapp-bcb37/adminSdkConfig {"projectId":"webapp-bcb37","storageBucket":"webapp-bcb37.firebasestorage.app"}
+[debug] [2025-11-23T11:22:34.177Z] Validating nodejs source
+[debug] [2025-11-23T11:22:35.941Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^1.13.2",
+    "firebase-admin": "^13.6.0",
+    "firebase-functions": "^7.0.0",
+    "form-data": "^4.0.5"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2025-11-23T11:22:35.942Z] Building nodejs source
+[info] i  functions: Loading and analyzing source code for codebase default to determine what to deploy 
+[debug] [2025-11-23T11:22:35.945Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-11-23T11:22:35.953Z] Found firebase-functions binary at 'C:\Users\Lenovo K14 Gen 1\Desktop\Faygo tst\functions\node_modules\.bin\firebase-functions'
+[info] Serving at port 8381
+
+[debug] [2025-11-23T11:22:37.001Z] Got response from /__/functions.yaml {"endpoints":{"sendTelegramNotification":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"eventTrigger":{"eventType":"providers/cloud.firestore/eventTypes/document.create","eventFilters":{"resource":"projects/webapp-bcb37/databases/(default)/documents/topupRequests/{requestId}"},"retry":false},"labels":{},"entryPoint":"sendTelegramNotification"},"telegramWebhook":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"telegramWebhook"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[info] i  extensions: ensuring required API firebaseextensions.googleapis.com is enabled... 
+[debug] [2025-11-23T11:22:41.056Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:41.056Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:41.057Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/firebaseextensions.googleapis.com [none]
+[debug] [2025-11-23T11:22:41.057Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/firebaseextensions.googleapis.com x-goog-quota-user=projects/webapp-bcb37
+[debug] [2025-11-23T11:22:42.502Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/firebaseextensions.googleapis.com 200
+[debug] [2025-11-23T11:22:42.502Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/webapp-bcb37/services/firebaseextensions.googleapis.com [omitted]
+[info] +  extensions: required API firebaseextensions.googleapis.com is enabled 
+[debug] [2025-11-23T11:22:42.514Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-11-23T11:22:42.514Z] > authorizing via signed-in user (hsumyatshine3151@gmail.com)
+[debug] [2025-11-23T11:22:42.514Z] [iam] checking project webapp-bcb37 for permissions ["firebase.projects.get","firebaseextensions.instances.list"]
+[debug] [2025-11-23T11:22:42.515Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:42.515Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:42.515Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/webapp-bcb37:testIamPermissions [none]
+[debug] [2025-11-23T11:22:42.515Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/webapp-bcb37:testIamPermissions x-goog-quota-user=projects/webapp-bcb37
+[debug] [2025-11-23T11:22:42.515Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/webapp-bcb37:testIamPermissions {"permissions":["firebase.projects.get","firebaseextensions.instances.list"]}
+[debug] [2025-11-23T11:22:44.261Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/webapp-bcb37:testIamPermissions 200
+[debug] [2025-11-23T11:22:44.262Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/webapp-bcb37:testIamPermissions {"permissions":["firebase.projects.get","firebaseextensions.instances.list"]}
+[debug] [2025-11-23T11:22:44.262Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:44.262Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:22:44.262Z] >>> [apiv2][query] GET https://firebaseextensions.googleapis.com/v1beta/projects/webapp-bcb37/instances pageSize=100&pageToken=
+[debug] [2025-11-23T11:22:46.086Z] <<< [apiv2][status] GET https://firebaseextensions.googleapis.com/v1beta/projects/webapp-bcb37/instances 200
+[debug] [2025-11-23T11:22:46.086Z] <<< [apiv2][body] GET https://firebaseextensions.googleapis.com/v1beta/projects/webapp-bcb37/instances {}
+[info] i  functions: preparing functions directory for uploading... 
+[debug] [2025-11-23T11:22:47.547Z] *** [apiv2] error from fetch(https://firebase-public.firebaseio.com/cli.json, {"headers":{},"method":"GET"}): FetchError: request to https://firebase-public.firebaseio.com/cli.json failed, reason: 
+[warn] !  Unable to fetch the CLI MOTD and remote config. This is not a fatal error, but may indicate an issue with your network connection. 
+[debug] [2025-11-23T11:22:47.549Z] Failed to fetch MOTD FirebaseError: Failed to make request to https://firebase-public.firebaseio.com/cli.json
+[info] i  functions: packaged C:\Users\Lenovo K14 Gen 1\Desktop\Faygo tst\functions (29.19 MB) for uploading 
+[debug] [2025-11-23T11:23:05.564Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:05.565Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:05.565Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v1/projects/webapp-bcb37/locations/-/functions [none]
+[debug] [2025-11-23T11:23:06.586Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v1/projects/webapp-bcb37/locations/-/functions 200
+[debug] [2025-11-23T11:23:06.586Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v1/projects/webapp-bcb37/locations/-/functions {"functions":[{"name":"projects/webapp-bcb37/locations/us-central1/functions/telegramWebhook","httpsTrigger":{"url":"https://us-central1-webapp-bcb37.cloudfunctions.net/telegramWebhook","securityLevel":"SECURE_ALWAYS"},"status":"ACTIVE","entryPoint":"telegramWebhook","timeout":"60s","availableMemoryMb":256,"serviceAccountEmail":"webapp-bcb37@appspot.gserviceaccount.com","updateTime":"2025-11-21T08:53:15.879Z","versionId":"2","labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"2a2d15b76c80a048f0450f64d4d055f64f96d0c9"},"sourceUploadUrl":"https://storage.googleapis.com/uploads-1033221740463.us-central1.cloudfunctions.appspot.com/ed999198-242e-4b39-b6f7-e80a2d9d285e.zip","environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"webapp-bcb37\",\"storageBucket\":\"webapp-bcb37.firebasestorage.app\"}","GCLOUD_PROJECT":"webapp-bcb37","EVENTARC_CLOUD_EVENT_SOURCE":"projects/webapp-bcb37/locations/us-central1/functions/telegramWebhook"},"runtime":"nodejs22","ingressSettings":"ALLOW_ALL","buildId":"2bea9b2b-5f2a-4036-a404-dcbf7fe0b653","buildEnvironmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"buildName":"projects/666038503161/locations/us-central1/builds/2bea9b2b-5f2a-4036-a404-dcbf7fe0b653","dockerRegistry":"ARTIFACT_REGISTRY","automaticUpdatePolicy":{},"buildServiceAccount":"projects/webapp-bcb37/serviceAccounts/666038503161-compute@developer.gserviceaccount.com","satisfiesPzi":true},{"name":"projects/webapp-bcb37/locations/us-central1/functions/sendTelegramNotification","eventTrigger":{"eventType":"providers/cloud.firestore/eventTypes/document.create","resource":"projects/webapp-bcb37/databases/(default)/documents/topupRequests/{requestId}","service":"firestore.googleapis.com","failurePolicy":{}},"status":"ACTIVE","entryPoint":"sendTelegramNotification","timeout":"60s","availableMemoryMb":256,"serviceAccountEmail":"webapp-bcb37@appspot.gserviceaccount.com","updateTime":"2025-11-21T08:53:02.718Z","versionId":"8","labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"2a2d15b76c80a048f0450f64d4d055f64f96d0c9"},"sourceUploadUrl":"https://storage.googleapis.com/uploads-1033221740463.us-central1.cloudfunctions.appspot.com/ed999198-242e-4b39-b6f7-e80a2d9d285e.zip","environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"webapp-bcb37\",\"storageBucket\":\"webapp-bcb37.firebasestorage.app\"}","GCLOUD_PROJECT":"webapp-bcb37","EVENTARC_CLOUD_EVENT_SOURCE":"projects/webapp-bcb37/locations/us-central1/functions/sendTelegramNotification"},"runtime":"nodejs22","maxInstances":3000,"ingressSettings":"ALLOW_ALL","buildId":"2bea9b2b-5f2a-4036-a404-dcbf7fe0b653","buildEnvironmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"buildName":"projects/666038503161/locations/us-central1/builds/2bea9b2b-5f2a-4036-a404-dcbf7fe0b653","dockerRegistry":"ARTIFACT_REGISTRY","automaticUpdatePolicy":{},"buildServiceAccount":"projects/webapp-bcb37/serviceAccounts/666038503161-compute@developer.gserviceaccount.com","satisfiesPzi":true}]}
+[debug] [2025-11-23T11:23:06.588Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:06.588Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:06.590Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/webapp-bcb37/locations/-/functions filter=environment%3D%22GEN_2%22
+[debug] [2025-11-23T11:23:08.399Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/webapp-bcb37/locations/-/functions 200
+[debug] [2025-11-23T11:23:08.399Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/webapp-bcb37/locations/-/functions {"functions":[{"name":"projects/webapp-bcb37/locations/asia-southeast1/functions/setAdminClaim","buildConfig":{"build":"projects/666038503161/locations/asia-southeast1/builds/93aca678-8a2b-411d-a85b-f4debb8be96b","runtime":"python313","entryPoint":"setAdminClaim","source":{"storageSource":{"bucket":"gcf-v2-sources-666038503161-asia-southeast1","object":"setAdminClaim/function-source.zip","generation":"1763464737942029"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/webapp-bcb37/locations/asia-southeast1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-666038503161-asia-southeast1","object":"setAdminClaim/function-source.zip","generation":"1763464737942029"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/webapp-bcb37/serviceAccounts/666038503161-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/webapp-bcb37/locations/asia-southeast1/services/setadminclaim","timeoutSeconds":60,"environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"webapp-bcb37\",\"storageBucket\":\"webapp-bcb37.firebasestorage.app\"}","GCLOUD_PROJECT":"webapp-bcb37","EVENTARC_CLOUD_EVENT_SOURCE":"projects/webapp-bcb37/locations/asia-southeast1/services/setAdminClaim","FUNCTION_TARGET":"setAdminClaim","LOG_EXECUTION_ID":"true","FUNCTION_SIGNATURE_TYPE":"http"},"ingressSettings":"ALLOW_ALL","uri":"https://setadminclaim-g4olssz3ga-as.a.run.app","serviceAccountEmail":"666038503161-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"setadminclaim-00002-dac","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","updateTime":"2025-11-18T11:19:06.819155549Z","labels":{"deployment-callable":"true","deployment-tool":"cli-firebase","firebase-functions-hash":"d1192d9316affcbd91f9fa22d41fafc910186694"},"environment":"GEN_2","url":"https://asia-southeast1-webapp-bcb37.cloudfunctions.net/setAdminClaim","satisfiesPzs":true,"createTime":"2025-11-18T05:53:32.508715210Z","satisfiesPzi":true},{"name":"projects/webapp-bcb37/locations/asia-southeast1/functions/processPurchase","buildConfig":{"build":"projects/666038503161/locations/asia-southeast1/builds/93aca678-8a2b-411d-a85b-f4debb8be96b","runtime":"python313","entryPoint":"processPurchase","source":{"storageSource":{"bucket":"gcf-v2-sources-666038503161-asia-southeast1","object":"processPurchase/function-source.zip","generation":"1763464658782882"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/webapp-bcb37/locations/asia-southeast1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-666038503161-asia-southeast1","object":"processPurchase/function-source.zip","generation":"1763464658782882"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/webapp-bcb37/serviceAccounts/666038503161-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/webapp-bcb37/locations/asia-southeast1/services/processpurchase","timeoutSeconds":60,"environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"webapp-bcb37\",\"storageBucket\":\"webapp-bcb37.firebasestorage.app\"}","GCLOUD_PROJECT":"webapp-bcb37","EVENTARC_CLOUD_EVENT_SOURCE":"projects/webapp-bcb37/locations/asia-southeast1/services/processPurchase","FUNCTION_TARGET":"processPurchase","LOG_EXECUTION_ID":"true","FUNCTION_SIGNATURE_TYPE":"http"},"ingressSettings":"ALLOW_ALL","uri":"https://processpurchase-g4olssz3ga-as.a.run.app","serviceAccountEmail":"666038503161-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"processpurchase-00004-ned","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","updateTime":"2025-11-18T11:19:05.697973874Z","labels":{"firebase-functions-hash":"d1192d9316affcbd91f9fa22d41fafc910186694","deployment-callable":"true","deployment-tool":"cli-firebase"},"environment":"GEN_2","url":"https://asia-southeast1-webapp-bcb37.cloudfunctions.net/processPurchase","satisfiesPzs":true,"createTime":"2025-11-11T14:45:49.988202380Z","satisfiesPzi":true}]}
+[debug] [2025-11-23T11:23:08.407Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:08.408Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:08.408Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/webapp-bcb37 [none]
+[debug] [2025-11-23T11:23:09.635Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/webapp-bcb37 200
+[debug] [2025-11-23T11:23:09.635Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/webapp-bcb37 {"projectNumber":"666038503161","projectId":"webapp-bcb37","lifecycleState":"ACTIVE","name":"webapp","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2025-11-05T02:42:17.654747Z"}
+[debug] [2025-11-23T11:23:09.651Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:09.651Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:09.651Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/webapp-bcb37/versions [none]
+[debug] [2025-11-23T11:23:09.651Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/webapp-bcb37/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2025-11-23T11:23:11.961Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/webapp-bcb37/versions 200
+[debug] [2025-11-23T11:23:11.962Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/webapp-bcb37/versions {"name":"projects/666038503161/sites/webapp-bcb37/versions/cc37a312891545cf","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2025-11-23T11:23:11.965Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:11.965Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:11.965Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/webapp-bcb37/billingInfo [none]
+[debug] [2025-11-23T11:23:13.609Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/webapp-bcb37/billingInfo 200
+[debug] [2025-11-23T11:23:13.610Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/webapp-bcb37/billingInfo {"name":"projects/webapp-bcb37/billingInfo","projectId":"webapp-bcb37","billingAccountName":"billingAccounts/01FF84-51B5B8-3DE52C","billingEnabled":true}
+[debug] [2025-11-23T11:23:13.615Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:13.615Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:13.616Z] >>> [apiv2][query] POST https://cloudfunctions.googleapis.com/v1/projects/webapp-bcb37/locations/us-central1/functions:generateUploadUrl [none]
+[debug] [2025-11-23T11:23:13.616Z] >>> [apiv2][body] POST https://cloudfunctions.googleapis.com/v1/projects/webapp-bcb37/locations/us-central1/functions:generateUploadUrl {}
+[debug] [2025-11-23T11:23:14.635Z] <<< [apiv2][status] POST https://cloudfunctions.googleapis.com/v1/projects/webapp-bcb37/locations/us-central1/functions:generateUploadUrl 200
+[debug] [2025-11-23T11:23:14.635Z] <<< [apiv2][body] POST https://cloudfunctions.googleapis.com/v1/projects/webapp-bcb37/locations/us-central1/functions:generateUploadUrl {"uploadUrl":"https://storage.googleapis.com/uploads-1033221740463.us-central1.cloudfunctions.appspot.com/4829f187-0562-499c-bb0d-000d3306111c.zip?GoogleAccessId=service-666038503161@gcf-admin-robot.iam.gserviceaccount.com&Expires=1763898769&Signature=BDb6%2FIlyZxKIfZdD%2BoPuqKeId6Vx3Qhqf6fqzCLs11PtDX2JOXsntNDuuObCTspJ9Mh0N7KbvDfCd7QuyFSuakkYMgTTenjlm4xG3haMW9OC47EtbAdlXL7BlelwGfDXRQ16jMqyeczIJBLzlhuiVbXUOPDpFwX9ITuRTd5n6Mj3eT%2B4eSBJOGmRBfkmSJ5vAJM6Lf7FX6Sj%2FKXHxA%2FS12lnCeFU2r8GLRJsyyPHdWdxev%2BwvgLKTxeXa06XhLhSOap%2BmCxh2VGyUD1MYLo6TzAYAJdXBWehi7h8ZQoJM8ANWwYCpWYAYWCW2F2%2BMPJ3FYcK1jXjbnUb0r1QOEr0oQ%3D%3D"}
+[debug] [2025-11-23T11:23:14.638Z] >>> [apiv2][query] PUT https://storage.googleapis.com/uploads-1033221740463.us-central1.cloudfunctions.appspot.com/4829f187-0562-499c-bb0d-000d3306111c.zip GoogleAccessId=service-666038503161%40gcf-admin-robot.iam.gserviceaccount.com&Expires=1763898769&Signature=BDb6%2FIlyZxKIfZdD%2BoPuqKeId6Vx3Qhqf6fqzCLs11PtDX2JOXsntNDuuObCTspJ9Mh0N7KbvDfCd7QuyFSuakkYMgTTenjlm4xG3haMW9OC47EtbAdlXL7BlelwGfDXRQ16jMqyeczIJBLzlhuiVbXUOPDpFwX9ITuRTd5n6Mj3eT%2B4eSBJOGmRBfkmSJ5vAJM6Lf7FX6Sj%2FKXHxA%2FS12lnCeFU2r8GLRJsyyPHdWdxev%2BwvgLKTxeXa06XhLhSOap%2BmCxh2VGyUD1MYLo6TzAYAJdXBWehi7h8ZQoJM8ANWwYCpWYAYWCW2F2%2BMPJ3FYcK1jXjbnUb0r1QOEr0oQ%3D%3D
+[debug] [2025-11-23T11:23:14.638Z] >>> [apiv2][body] PUT https://storage.googleapis.com/uploads-1033221740463.us-central1.cloudfunctions.appspot.com/4829f187-0562-499c-bb0d-000d3306111c.zip [stream]
+[debug] [2025-11-23T11:23:55.384Z] <<< [apiv2][status] PUT https://storage.googleapis.com/uploads-1033221740463.us-central1.cloudfunctions.appspot.com/4829f187-0562-499c-bb0d-000d3306111c.zip 200
+[debug] [2025-11-23T11:23:55.384Z] <<< [apiv2][body] PUT https://storage.googleapis.com/uploads-1033221740463.us-central1.cloudfunctions.appspot.com/4829f187-0562-499c-bb0d-000d3306111c.zip [omitted]
+[info] +  functions: functions source uploaded successfully 
+[info] i  hosting[webapp-bcb37]: beginning deploy... 
+[info] i  hosting[webapp-bcb37]: found 12 files in public 
+[debug] [2025-11-23T11:23:55.428Z] [hosting] uploading with 200 concurrency
+[debug] [2025-11-23T11:23:55.465Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:55.465Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:55.467Z] [hosting] hash cache [cHVibGlj] stored for 12 files
+[debug] [2025-11-23T11:23:55.468Z] [hosting][hash queue][FINAL] {"max":25,"min":3,"avg":14.666666666666666,"active":0,"complete":12,"success":12,"errored":0,"retried":0,"total":12,"elapsed":33}
+[debug] [2025-11-23T11:23:55.468Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/666038503161/sites/webapp-bcb37/versions/cc37a312891545cf:populateFiles [none]
+[debug] [2025-11-23T11:23:55.468Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/666038503161/sites/webapp-bcb37/versions/cc37a312891545cf:populateFiles {"files":{"/manifest.json":"cad83093c8c916b54dcc390727ef804061f23a33ea2a868683286d9bace943d8","/icon.png":"46245e5e581393441f7e986bc1069a38c9ff1f873e3d071ee44af82c3d25199c","/404.html":"762bf484ba67404bd1a3b181546ea28d60dfddf18e9dd4795d8d25bcf3c1a890","/service-worker.js":"082873062daa7304d1a727bbb0325d867f9c543b0aed797e468343b58cb47d23","/js/firestore.js":"bacb9530338e311733ee50e21690de2d4b056c39dcf8501d5fcfc1bde7ad8a53","/js/firebase.js":"fd368f02aedf5360114c33d91c945009644dce478f36ddf247983c389b9fa8a7","/js/auth.js":"1511e99702342855e26025c63e4a1f335352e84a0a566c7e7431163db79af7d8","/js/ui.js":"7e13f97baad51328453e74713f086793ba16621c2f1dac2d3ccdcd79e639ffce","/admin.html":"8983b775a72db38f42362b93de2680d2e7bb90c400f27d49096760287bc49e89","/js/app.js":"20435eae3cc7b0ec1bf332d27b1df0f6c84bdbe0646c120172c6e85142ec21af","/admin-js/admin-app.js":"2d953c6874805974a3246c6ea5df459c482d58f611e272466d319bc5e1ff1227","/index.html":"22c5afc538eaaa690f6f9216bc7613492ebbaf1503d5733845733995905bfcd2"}}
+[debug] [2025-11-23T11:23:57.676Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/666038503161/sites/webapp-bcb37/versions/cc37a312891545cf:populateFiles 200
+[debug] [2025-11-23T11:23:57.677Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/666038503161/sites/webapp-bcb37/versions/cc37a312891545cf:populateFiles {"uploadRequiredHashes":["20435eae3cc7b0ec1bf332d27b1df0f6c84bdbe0646c120172c6e85142ec21af","22c5afc538eaaa690f6f9216bc7613492ebbaf1503d5733845733995905bfcd2","bacb9530338e311733ee50e21690de2d4b056c39dcf8501d5fcfc1bde7ad8a53","8983b775a72db38f42362b93de2680d2e7bb90c400f27d49096760287bc49e89","082873062daa7304d1a727bbb0325d867f9c543b0aed797e468343b58cb47d23","fd368f02aedf5360114c33d91c945009644dce478f36ddf247983c389b9fa8a7","2d953c6874805974a3246c6ea5df459c482d58f611e272466d319bc5e1ff1227","1511e99702342855e26025c63e4a1f335352e84a0a566c7e7431163db79af7d8","7e13f97baad51328453e74713f086793ba16621c2f1dac2d3ccdcd79e639ffce"],"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files"}
+[debug] [2025-11-23T11:23:57.678Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:57.678Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:57.678Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:57.678Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:57.678Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:57.678Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:57.679Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:57.679Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:57.679Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:57.679Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:57.679Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:57.679Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:57.679Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:57.679Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:57.679Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:57.679Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:57.679Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:57.679Z] Checked if tokens are valid: true, expires at: 1763900437130
+[debug] [2025-11-23T11:23:57.679Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/20435eae3cc7b0ec1bf332d27b1df0f6c84bdbe0646c120172c6e85142ec21af [none]
+[debug] [2025-11-23T11:23:57.679Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/20435eae3cc7b0ec1bf332d27b1df0f6c84bdbe0646c120172c6e85142ec21af [stream]
+[debug] [2025-11-23T11:23:57.680Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/22c5afc538eaaa690f6f9216bc7613492ebbaf1503d5733845733995905bfcd2 [none]
+[debug] [2025-11-23T11:23:57.681Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/22c5afc538eaaa690f6f9216bc7613492ebbaf1503d5733845733995905bfcd2 [stream]
+[debug] [2025-11-23T11:23:57.681Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/bacb9530338e311733ee50e21690de2d4b056c39dcf8501d5fcfc1bde7ad8a53 [none]
+[debug] [2025-11-23T11:23:57.681Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/bacb9530338e311733ee50e21690de2d4b056c39dcf8501d5fcfc1bde7ad8a53 [stream]
+[debug] [2025-11-23T11:23:57.682Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/8983b775a72db38f42362b93de2680d2e7bb90c400f27d49096760287bc49e89 [none]
+[debug] [2025-11-23T11:23:57.682Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/8983b775a72db38f42362b93de2680d2e7bb90c400f27d49096760287bc49e89 [stream]
+[debug] [2025-11-23T11:23:57.683Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/082873062daa7304d1a727bbb0325d867f9c543b0aed797e468343b58cb47d23 [none]
+[debug] [2025-11-23T11:23:57.683Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/082873062daa7304d1a727bbb0325d867f9c543b0aed797e468343b58cb47d23 [stream]
+[debug] [2025-11-23T11:23:57.683Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/fd368f02aedf5360114c33d91c945009644dce478f36ddf247983c389b9fa8a7 [none]
+[debug] [2025-11-23T11:23:57.683Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/fd368f02aedf5360114c33d91c945009644dce478f36ddf247983c389b9fa8a7 [stream]
+[debug] [2025-11-23T11:23:57.684Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/2d953c6874805974a3246c6ea5df459c482d58f611e272466d319bc5e1ff1227 [none]
+[debug] [2025-11-23T11:23:57.684Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/2d953c6874805974a3246c6ea5df459c482d58f611e272466d319bc5e1ff1227 [stream]
+[debug] [2025-11-23T11:23:57.684Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/1511e99702342855e26025c63e4a1f335352e84a0a566c7e7431163db79af7d8 [none]
+[debug] [2025-11-23T11:23:57.684Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/1511e99702342855e26025c63e4a1f335352e84a0a566c7e7431163db79af7d8 [stream]
+[debug] [2025-11-23T11:23:57.685Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/7e13f97baad51328453e74713f086793ba16621c2f1dac2d3ccdcd79e639ffce [none]
+[debug] [2025-11-23T11:23:57.685Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/7e13f97baad51328453e74713f086793ba16621c2f1dac2d3ccdcd79e639ffce [stream]
+[debug] [2025-11-23T11:23:57.685Z] [hosting][populate queue][FINAL] {"max":2214,"min":2214,"avg":2214,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":2220}
+[debug] [2025-11-23T11:23:57.686Z] [hosting] uploads queued: 9
+[debug] [2025-11-23T11:23:59.247Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/bacb9530338e311733ee50e21690de2d4b056c39dcf8501d5fcfc1bde7ad8a53 200
+[debug] [2025-11-23T11:23:59.248Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/bacb9530338e311733ee50e21690de2d4b056c39dcf8501d5fcfc1bde7ad8a53 [stream]
+[debug] [2025-11-23T11:23:59.327Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/20435eae3cc7b0ec1bf332d27b1df0f6c84bdbe0646c120172c6e85142ec21af 200
+[debug] [2025-11-23T11:23:59.327Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/20435eae3cc7b0ec1bf332d27b1df0f6c84bdbe0646c120172c6e85142ec21af [stream]
+[debug] [2025-11-23T11:23:59.499Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/22c5afc538eaaa690f6f9216bc7613492ebbaf1503d5733845733995905bfcd2 200
+[debug] [2025-11-23T11:23:59.499Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/22c5afc538eaaa690f6f9216bc7613492ebbaf1503d5733845733995905bfcd2 [stream]
+[debug] [2025-11-23T11:23:59.627Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/8983b775a72db38f42362b93de2680d2e7bb90c400f27d49096760287bc49e89 200
+[debug] [2025-11-23T11:23:59.628Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/8983b775a72db38f42362b93de2680d2e7bb90c400f27d49096760287bc49e89 [stream]
+[debug] [2025-11-23T11:23:59.853Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/1511e99702342855e26025c63e4a1f335352e84a0a566c7e7431163db79af7d8 200
+[debug] [2025-11-23T11:23:59.853Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/1511e99702342855e26025c63e4a1f335352e84a0a566c7e7431163db79af7d8 [stream]
+[debug] [2025-11-23T11:23:59.958Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/082873062daa7304d1a727bbb0325d867f9c543b0aed797e468343b58cb47d23 200
+[debug] [2025-11-23T11:23:59.958Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/082873062daa7304d1a727bbb0325d867f9c543b0aed797e468343b58cb47d23 [stream]
+[debug] [2025-11-23T11:23:59.961Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/7e13f97baad51328453e74713f086793ba16621c2f1dac2d3ccdcd79e639ffce 200
+[debug] [2025-11-23T11:23:59.961Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/7e13f97baad51328453e74713f086793ba16621c2f1dac2d3ccdcd79e639ffce [stream]
+[debug] [2025-11-23T11:24:00.010Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/2d953c6874805974a3246c6ea5df459c482d58f611e272466d319bc5e1ff1227 200
+[debug] [2025-11-23T11:24:00.011Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/2d953c6874805974a3246c6ea5df459c482d58f611e272466d319bc5e1ff1227 [stream]
+[debug] [2025-11-23T11:24:00.115Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/fd368f02aedf5360114c33d91c945009644dce478f36ddf247983c389b9fa8a7 200
+[debug] [2025-11-23T11:24:00.115Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/webapp-bcb37/versions/cc37a312891545cf/files/fd368f02aedf5360114c33d91c945009644dce478f36ddf247983c389b9fa8a7 [stream]
+[debug] [2025-11-23T11:24:00.115Z] [hosting][upload queue][FINAL] {"max":2436,"min":1570,"avg":2055.1111111111113,"active":0,"complete":9,"success":9,"errored":0,"retried":0,"total":9,"elapsed":2438}
+[info] +  hosting[webapp-bcb37]: file upload complete 
+[debug] [2025-11-23T11:24:00.117Z] [hosting] deploy completed after 4723ms
+[info] 
+The following functions are found in your project but do not exist in your local source code:
+	processPurchase(asia-southeast1)
+	setAdminClaim(asia-southeast1)
+
+If you are renaming a function or changing its region, it is recommended that you create the new function first before deleting the old one to prevent event loss. For more info, visit https://firebase.google.com/docs/functions/manage-functions#modify
+

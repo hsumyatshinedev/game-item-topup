@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="my">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Faygo Admin Panel</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/feather-icons"></script>
+<style>
+  :root{
+    --bg1:#041227; --bg2:#071433; --neon:#00d2ff; --accent:#7cf1ff;
+    --glass: rgba(255,255,255,0.06); --glass-2: rgba(255,255,255,0.03);
+    --success: #00ff8c; --error: #ff6b6b; --pending: #ffb86b;
+  }
+  body,html{height:100%;margin:0;font-family:"Roboto",system-ui,Arial;background:var(--bg1); color:#e6f7ff; -webkit-font-smoothing:antialiased}
+  *{box-sizing:border-box}
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    padding-bottom: 80px; 
+  }
+  
+  .card {
+    background: var(--bg2);
+    border: 1px solid rgba(0,210,255,0.1);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    margin-bottom: 20px;
+  }
+  .card h2 {
+    margin: 0 0 16px;
+    color: var(--neon);
+    border-bottom: 1px solid rgba(0,210,255,0.2);
+    padding-bottom: 10px;
+  }
+  .card h3 {
+    color: var(--accent);
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--glass);
+    padding-bottom: 8px;
+  }
+  
+  #login-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 15px;
+  }
+  #login-card {
+    width: 100%;
+    max-width: 380px;
+  }
+  
+  .table-wrap {
+    overflow-x: auto; 
+  }
+  table { width: 100%; border-collapse: collapse; min-width: 600px; }
+  th, td {
+    padding: 12px 10px;
+    text-align: left;
+    border-bottom: 1px solid var(--glass);
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+  th { font-size: 13px; opacity: 0.8; text-transform: uppercase; }
+  td { font-size: 14px; }
+  tr:hover { background: var(--glass-2); }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  @media (min-width: 768px) {
+    .form-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+  }
+  
+  .form-grid-4 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (min-width: 768px) {
+    .form-grid-4 {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 16px;
+    }
+  }
+  
+  .field { margin-bottom: 16px; }
+  .field label { display: block; font-size: 13px; margin-bottom: 6px; opacity: 0.8; }
+  .field input, .field textarea {
+    width: 100%; padding: 12px 14px; border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.04);
+    background: rgba(255,255,255,0.02);
+    color: inherit; font-size: 14px; outline: none;
+    transition: box-shadow 0.2s;
+    font-family: inherit;
+  }
+  .field textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+  .field input:focus, .field textarea:focus {
+    box-shadow: 0 0 0 2px var(--neon);
+  }
+  
+  .field-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.02);
+    cursor: pointer;
+  }
+  .field-checkbox input {
+    width: auto;
+    accent-color: var(--neon);
+  }
+  .field-checkbox label {
+    margin: 0;
+    opacity: 1;
+    font-weight: 600;
+  }
+  
+  .btn {
+    display: inline-block; padding: 12px 16px; border-radius: 10px;
+    border: none; cursor: pointer;
+    background: linear-gradient(90deg,var(--neon),var(--accent));
+    color: #012331; font-weight: 700;
+    font-size: 15px;
+    box-shadow: 0 8px 24px rgba(0,210,255,0.08);
+    transition: all 0.2s ease;
+    width: 100%; 
+  }
+  .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    background: var(--glass);
+  }
+  .btn-sm {
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: 8px;
+    width: auto; 
+  }
+  .btn-success { background: linear-gradient(90deg, var(--success), #79ffcb); color: #012331; }
+  .btn-danger { background: linear-gradient(90deg, var(--error), #ff8f8f); color: #012331; }
+  .btn-secondary { background: var(--glass); color: var(--accent); }
+  
+  .slip-img, .product-img {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    object-fit: cover;
+    background: var(--glass-2);
+  }
+  .slip-img:hover, .product-img:hover { transform: scale(3); }
+  
+  .modal-backdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px); z-index: 100;
+    display: none; align-items: center; justify-content: center;
+    padding: 15px;
+  }
+  
+  .modal-content {
+    background: var(--bg1);
+    border: 1px solid var(--neon);
+    border-radius: 12px;
+    padding: 24px;
+    max-width: 90vw;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 10px 40px rgba(0,210,255,0.2);
+  }
+  
+  #image-modal .modal-content {
+    padding: 10px;
+  }
+  #modal-img-src {
+    max-width: 100%;
+    max-height: 80vh;
+    border-radius: 8px;
+    display: block;
+  }
+
+  .modal-text {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    color: #e6f7ff;
+  }
+  .modal-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+  }
+  .modal-buttons .btn {
+    width: auto;
+    padding: 10px 20px;
+  }
+  
+  #tab-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    background: var(--bg2);
+    border-top: 1px solid rgba(0,210,255,0.1);
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.3);
+    z-index: 50;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 12px 10px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px; 
+    border-top: 3px solid transparent;
+    transition: all 0.2s ease;
+  }
+  .tab-btn svg {
+    width: 20px; 
+    height: 20px;
+  }
+  .tab-btn.active {
+    color: var(--neon);
+    border-top-color: var(--neon);
+  }
+  
+  .tab-content {
+    display: none; 
+  }
+  .tab-content.active {
+    display: block; 
+  }
+  
+  .text-success { color: var(--success); }
+  .text-danger { color: var(--error); }
+  .text-pending { color: var(--pending); }
+  .text-muted { opacity: 0.7; font-size: 12px; }
+
+  .status-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+  .status-badge.approved { background-color: var(--success); color: #012331; }
+  .status-badge.rejected { background-color: var(--error); color: #012331; }
+  .status-badge.pending { background-color: var(--pending); color: #012331; }
+
+  #dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  .dashboard-card {
+    background: var(--glass-2);
+    border: 1px solid rgba(124,241,255,0.06);
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .dashboard-card-title {
+    font-size: 13px;
+    opacity: 0.8;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dashboard-card-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  
+  #product-options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 10px;
+    border-radius: 8px;
+    background: var(--glass-2);
+    min-height: 50px;
+  }
+  .option-item {
+    display: flex;
+    flex-direction: column; 
+    gap: 8px;
+    font-size: 14px;
+    padding: 12px;
+    background: var(--glass);
+    border-radius: 6px;
+  }
+  .option-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+  }
+  .option-item-header span {
+    color: var(--accent);
+    font-size: 15px;
+  }
+  .option-item-prices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 10px;
+    font-size: 13px;
+    opacity: 0.9;
+  }
+  
+  @media (max-width: 768px) {
+    .container {
+      padding: 10px;
+      padding-bottom: 80px; 
+    }
+    .card {
+      padding: 15px;
+    }
+    .card h2 {
+      font-size: 20px;
+    }
+    th, td {
+      padding: 10px 8px;
+    }
+    .slip-img:hover, .product-img:hover {
+      transform: scale(2.5);
+    }
+    #dashboard-grid {
+       grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div id="login-wrap">
+    <div class="card" id="login-card">
+      <h2>Admin Panel Login</h2>
+      <div class="field">
+        <label for="admin-user">Username (Email)</label>
+        <input id="admin-user" type="email" placeholder="admin@example.com" />
+      </div>
+      <div class="field">
+        <label for="admin-pass">Password</label>
+        <input id="admin-pass" type="password" />
+      </div>
+      <button class="btn" id="login-btn">Login</button>
+      <p id="login-msg" class="text-danger" style="margin-top:15px; text-align: center;"></p>
+    </div>
+  </div>
+
+  <div class="container" id="dashboard" style="display: none;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+      <h1 style="color: var(--accent); margin: 0; font-size: 28px;">Faygo Admin Panel</h1>
+      
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <div id="admin-info" class="text-muted" style="font-size: 14px; text-align: right;">
+          Welcome,<br><span id="admin-name" style="color: var(--neon); font-weight: 600;"></span>
+        </div>
+        <button class="btn btn-sm btn-danger" id="logout-btn" style="width: auto; display: flex; align-items: center; gap: 6px;">
+          <i data-feather="log-out" style="width: 16px; height: 16px;"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+
+    <nav id="tab-bar">
+      <button class="tab-btn" data-tab="dashboard">
+        <i data-feather="grid"></i>
+        <span>Dashboard</span>
+      </button>
+
+      <button class="tab-btn" data-tab="topups">
+        <i data-feather="inbox"></i>
+        <span>Pending Top-ups</span>
+      </button>
+      
+      <button class="tab-btn" data-tab="history">
+        <i data-feather="clock"></i>
+        <span>Top-up History</span>
+      </button>
+      
+      <button class="tab-btn" data-tab="users">
+        <i data-feather="users"></i>
+        <span>Users</span>
+      </button>
+      <button class="tab-btn" data-tab="products">
+        <i data-feather="shopping-bag"></i>
+        <span>Products</span>
+      </button>
+      <button class="tab-btn" data-tab="social">
+        <i data-feather="globe"></i>
+        <span>Social</span>
+      </button>
+      <button class="tab-btn" data-tab="banners">
+        <i data-feather="image"></i>
+        <span>Banners</span>
+      </button>
+      <button class="tab-btn" data-tab="settings">
+        <i data-feather="settings"></i>
+        <span>Settings</span>
+      </button>
+    </nav>
+  </div>  
+    
+  <div id="tab-content-container" style="display: none;">
+      
+      <div class="tab-content" id="dashboard-page">
+        <div class="card">
+          <h2>System Overview</h2>
+          <div id="dashboard-grid">
+            
+            <div class="dashboard-card">
+              <div class="dashboard-card-title">
+                <i data-feather="users" style="color: var(--neon);"></i>
+                Total Users
+              </div>
+              <div class="dashboard-card-value" id="totalUsersValue">0</div>
+            </div>
+
+            <div class="dashboard-card">
+              <div class="dashboard-card-title">
+                <i data-feather="dollar-sign" style="color: var(--success);"></i>
+                Total Balance (USD)
+              </div>
+              <div class="dashboard-card-value" id="totalBalanceValue">$0.00</div>
+            </div>
+
+            <div class="dashboard-card">
+              <div class="dashboard-card-title">
+                <i data-feather="inbox" style="color: var(--pending);"></i>
+                Pending Top-ups
+              </div>
+              <div class="dashboard-card-value" id="pendingTopupsCount">0</div>
+            </div>
+
+            <div class="dashboard-card">
+              <div class="dashboard-card-title">
+                <i data-feather="dollar-sign" style="color: var(--pending);"></i>
+                Pending Top-up Value (USD)
+              </div>
+              <div class="dashboard-card-value" id="pendingTopupsValue">$0.00</div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      
+      <div class="tab-content" id="topups-page">
+        <div class="card">
+          <h2>Pending Top-ups</h2>
+          <div class="table-wrap">
+            <table id="topup-table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Amount (USD)</th> 
+                  <th>Method</th>
+                  <th>Slip</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>               
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      <div class="tab-content" id="history-page">
+        <div class="card">
+          <h2>Top-up History (Approved & Rejected)</h2>
+          <div class="table-wrap">
+            <table id="history-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>User</th>
+                  <th>Amount (USD)</th>
+                  <th>Method</th>
+                  <th>Status</th>
+                  <th>Admin Note</th>
+                </tr>
+              </thead>
+              <tbody>               
+              </tbody>
+            </table>
+          </div>
+          <p class="text-muted" style="text-align: center; margin-top: 15px;">
+            Showing last 50 processed requests.
+          </p>
+        </div>
+      </div>
+      
+      <div class="tab-content" id="users-page">
+        <div class="card">
+          <h2>User Management</h2>
+          
+          <div class="field" style="margin-bottom: 20px;">
+            <input id="user-search-input" type="text" placeholder="Search User by Name or Email..." />
+          </div>
+          
+          <div class="table-wrap">
+            <table id="user-table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Balance (USD)</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      <div class="tab-content" id="products-page">
+        <div class="card">
+          <h2>Add New Product (Game Tab)</h2>
+          <p class="text-muted" style="font-size: 14px; margin-top: -10px; margin-bottom: 15px;">
+            Items with the same **Group ID** (e.g., `MLBB`) will be grouped together. 
+            The **Group Display Name** and **Group Banner** should be the same for all items in a group.
+          </p>
+          
+          <div class="form-grid">
+            <div class="field">
+              <label for="product-group-display-name">Group Display Name (e.g., Mobile Legends)</label>
+              <input id="product-group-display-name" type="text" />
+            </div>
+            <div class="field">
+              <label for="product-group">Group ID (e.g., MLBB or PUBG)</label>
+              <input id="product-group" type="text" placeholder="Use same ID to group items (e.g., MLBB)" />
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="product-image">Group Icon (Small Square Image)</label>
+              <input id="product-image" type="file" accept="image/png, image/jpeg, image/webp" />
+              <img id="product-image-preview" src="" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover; margin-top: 10px; display: none; background: var(--glass-2); padding: 5px;"/>
+              <input id="product-image-url-hidden" type="hidden" />
+            </div>
+            
+            <div class="field">
+              <label for="product-group-banner">Group Banner (Wide Rectangle Image)</label>
+              <input id="product-group-banner" type="file" accept="image/png, image/jpeg, image/webp" />
+              <img id="product-group-banner-preview" src="" style="max-width: 100%; max-height: 100px; border-radius: 8px; object-fit: contain; margin-top: 10px; display: none; background: var(--glass-2); padding: 5px;"/>
+              <input id="product-group-banner-url-hidden" type="hidden" />
+            </div>
+          </div>
+          
+          <hr style="border-color: var(--glass); margin: 15px 0;">
+          
+          <div class="form-grid">
+            <div class="field">
+              <label for="product-name">Product Name (Tab Name)</label>
+              <input id="product-name" type="text" placeholder="e.g., Global Server" />
+            </div>
+            <div class="field">
+              <label for="product-option-sku">Smile.One Product ID (SKU)</label>
+              <input id="product-option-sku" type="text" placeholder="e.g., MLBB_100_Diamonds" />
+          </div>
+            <div class="field-checkbox">
+              <input id="product-require-serverid" type="checkbox" />
+              <label for="product-require-serverid">Require Server ID for this product?</label>
+            </div>
+          </div>
+          
+          <h3>Price Options (for this Product/Tab)</h3>
+          <div class="field">
+            <label for="product-option-name">Option Name (e.g., 100 Diamonds)</label>
+            <input id="product-option-name" type="text" />
+          </div>
+          <div class="form-grid-4">
+            <div class="field">
+              <label for="product-option-price-usd">Price (USD)</label>
+              <input id="product-option-price-usd" type="number" step="0.01" placeholder="e.g., 1.99" />
+            </div>
+            <div class="field">
+              <label for="product-option-price-mmk">MMK (Ks)</label>
+              <input id="product-option-price-mmk" type="number" placeholder="e.g., 6000" />
+            </div>
+            <div class="field">
+              <label for="product-option-price-thb">THB (฿)</label>
+              <input id="product-option-price-thb" type="number" placeholder="e.g., 70" />
+            </div>
+            <div class="field">
+              <label for="product-option-price-myr">MYR (RM)</label>
+              <input id="product-option-price-myr" type="number" step="0.01" placeholder="e.g., 4.8" />
+            </div>
+          </div>
+          
+          <button class="btn btn-secondary" id="add-option-btn" style="width: 100%; padding: 12px 14px; margin-top: -10px;">Add Price Option</button>
+          
+          <div id="product-options-list">
+          </div>
+          
+          <button class="btn" id="save-product-btn" style="margin-top: 20px;">Save Product (Tab)</button>
+        </div>
+        
+        <div class="card">
+          <h2>Current Products (Tabs)</h2>
+          <div class="table-wrap">
+            <table id="product-table">
+              <thead>
+                <tr>
+                  <th>Icon</th>
+                  <th>Group Name</th>
+                  <th>Group ID</th>
+                  <th>Product Name (Tab)</th>
+                  <th>Server ID?</th> <th>Price Options</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      <div class="tab-content" id="social-page">
+        <div class="card">
+          <h2>Add New Promotion</h2>
+          <div class="field">
+            <label for="promo-title">Title</label>
+            <input id="promo-title" type="text" />
+          </div>
+          
+          <div class="field">
+            <label for="promo-image">Upload Image (Optional)</label>
+            <input id="promo-image" type="file" accept="image/png, image/jpeg, image/webp" />
+            <img id="promo-image-preview" src="" style="max-width: 100%; max-height: 150px; border-radius: 8px; object-fit: contain; margin-top: 10px; display: none; background: var(--glass-2); padding: 5px;"/>
+            <input id="promo-image-url-hidden" type="hidden" />
+          </div>
+          
+          <div class="field">
+            <label for="promo-desc">Description</label>
+            <textarea id="promo-desc"></textarea>
+          </div>
+          <button class="btn" id="save-promo-btn">Save Promotion</button>
+        </div>
+        
+        <div class="card">
+          <h2>Current Promotions</h2>
+          <div class="table-wrap">
+            <table id="promo-table">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Likes</th> <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+             </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="tab-content" id="banners-page">
+          <div class="card">
+            <h2>Add Slider Banner (Image)</h2>
+            <div class="field">
+              <label for="banner-title">Title (Optional)</label>
+              <input id="banner-title" type="text" placeholder="e.g., SPECIAL OFFER" />
+            </div>
+            
+            <div class="field">
+              <label for="banner-image">Upload Banner Image (Wide)</label>
+              <input id="banner-image" type="file" accept="image/png, image/jpeg, image/webp" />
+              <img id="banner-image-preview" src="" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-top: 10px; display: none; background: var(--glass-2);"/>
+              <input id="banner-image-url-hidden" type="hidden" />
+            </div>
+
+            <button class="btn" id="save-banner-btn">Upload & Save Banner</button>
+          </div>
+  
+          <div class="card">
+            <h2>Active Banners</h2>
+            <div class="table-wrap">
+              <table id="banner-table">
+                <thead>
+                  <tr>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      <div class="tab-content" id="settings-page">
+  <div class="card">
+    <h2>App Settings</h2>
+    <p class="text-muted" style="font-size: 14px; margin-top: -10px; margin-bottom: 15px;">
+      Manage payment numbers and exchange rates.
+    </p>
+    
+    <h3>Payment Settings</h3>
+    <div class="form-grid">
+      <div class="field">
+        <label for="kpay-number">KBZPay Phone Number</label>
+        <input id="kpay-number" type="text" placeholder="e.g., 09xxxxxxxxx" />
+      </div>
+      <div class="field">
+        <label for="wave-number">Wave Pay Phone Number</label>
+        <input id="wave-number" type="text" placeholder="e.g., 09xxxxxxxxx" />
+      </div>
+    </div>
+    
+    <h3>Currency Exchange Rates (per $1 USD)</h3>
+    <div class="form-grid-4">
+      <div class="field">
+        <label for="rate-mmk">MMK (Ks)</label>
+        <input id="rate-mmk" type="number" placeholder="e.g., 3000" />
+      </div>
+      <div class="field">
+        <label for="rate-thb">THB (฿)</label>
+        <input id="rate-thb" type="number" step="0.01" placeholder="e.g., 35" />
+      </div>
+      <div class="field">
+        <label for="rate-myr">MYR (RM)</label>
+        <input id="rate-myr" type="number" step="0.01" placeholder="e.g., 4.8" />
+      </div>
+      <div class="field">
+        <label>USD</label>
+        <input type="text" value="$1 USD" disabled style="background: var(--glass-2); opacity: 0.7;" />
+      </div>
+    </div>
+
+    <div class="card" style="border: 1px solid var(--pending); margin-top: 30px; background: rgba(255, 184, 107, 0.05);">
+      <h2 style="color: var(--pending); border-bottom-color: rgba(255, 184, 107, 0.2); margin-top: 0;">⛔ Emergency Zone</h2>
+      
+      <div class="field-checkbox" style="background: rgba(255, 184, 107, 0.1); margin-top: 15px;">
+        <input id="maintenance-toggle" type="checkbox" />
+        <label for="maintenance-toggle" style="color: var(--pending);">Turn on Maintenance Mode (Close Shop)</label>
+      </div>
+      <p class="text-muted" style="margin-top: 10px; color: #ffb86b;">
+        ဖွင့်လိုက်ပါက User များ App သုံး၍ မရတော့ပါ။
+      </p>
+    </div>
+
+    <button class="btn" id="save-settings-btn" style="margin-top: 20px; width: 100%;">
+      Save Settings
+    </button>
+  </div>
+</div>
+  </div> <div class="modal-backdrop" id="image-modal">
+    <div class="modal-content">
+      <img id="modal-img-src" src="" alt="Slip Preview">
+    </div>
+  </div>
+  
+  <div class="modal-backdrop" id="alert-modal">
+    <div class="modal-content">
+      <p class="modal-text" id="alert-msg">Alert message goes here.</p>
+      <div class="modal-buttons">
+        <button class="btn" id="alert-ok-btn">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="confirm-modal">
+    <div class="modal-content">
+      <h3 style="color: var(--neon); margin-top: 0;">Confirmation</h3>
+      <p class="modal-text" id="confirm-msg">Are you sure?</p>
+      <div class="modal-buttons">
+        <button class="btn btn-secondary" id="confirm-no-btn">Cancel</button>
+        <button class="btn btn-success" id="confirm-yes-btn">Yes, Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="likeListModal">
+    <div class="modal-content" style="max-width: 600px; max-height: 80vh; display: flex; flex-direction: column;">
+      <h3 style="color: var(--neon); margin-top: 0;">View Likes</h3>
+      <p class="modal-text" id="adminLikeTitle" style="margin-bottom: 10px;"></p>
+      
+      <div id="adminLikeList" style="flex-grow: 1; min-height: 200px; overflow-y: auto; background: var(--glass-2); padding: 10px; border-radius: 8px;">
+        </div>
+      
+      <div class="modal-buttons" style="margin-top: 15px;">
+        <button class="btn btn-secondary" id="adminLikeCloseBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./admin-js/admin-app.js"></script>
+
+</body>
+</html>
